@@ -7,7 +7,7 @@ const SOURCE_BY_ID = new Map([
   ...Object.entries(EXTRA_SOURCE_LINKS).map(([id, source]) => [id, source]),
 ]);
 
-export function renderHome({ language = "en", reportsEnabled = true, approvedReports = [], origin = "https://kimchicanary.com" } = {}) {
+export function renderHome({ language = "en", reportsEnabled = true, approvedReports = [], origin = "https://kimchicanary.xyz" } = {}) {
   const t = getStrings(language);
   const dir = language === "ar" ? "rtl" : "ltr";
   const initialAssessment = assessCandidate([]);
@@ -66,8 +66,10 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
           </a>
           <nav aria-label="Primary">
             <a href="#assessment">${escapeHtml(t.startAssessment)}</a>
+            <a href="#cases">${escapeHtml(t.watchlist || "Watchlist")}</a>
+            <a href="/methodology">Methodology</a>
+            <a href="/kit">Hiring kit</a>
             <a href="#reports">${escapeHtml(t.reportSuspect)}</a>
-            <a href="#cases">Watchlist</a>
           </nav>
           <label class="language-picker">
             <span>${escapeHtml(t.language)}</span>
@@ -91,6 +93,7 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
               <div class="hero-actions">
                 <a class="button primary" href="#assessment">${escapeHtml(t.startAssessment)}</a>
                 <a class="button secondary" href="#cases">${escapeHtml(t.watchlist || "Watchlist")}</a>
+                <a class="button secondary" href="/kit">Print hiring kit</a>
               </div>
               <div class="stat-row" aria-label="Database scope">
                 <span><strong>${PUBLIC_CASES.length}</strong> ${escapeHtml(t.verifiedSourceGroups || "verified source groups")}</span>
@@ -155,6 +158,13 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
             <div class="section-head">
               <p class="eyebrow">${escapeHtml(t.officialCases)}</p>
               <h2>${escapeHtml(t.casesCopy)}</h2>
+            </div>
+            <div class="watchlist-tools">
+              <label>
+                Search watchlist
+                <input id="case-search" type="search" autocomplete="off" placeholder="Name, alias, case, indicator, source..." />
+              </label>
+              <span id="case-count">${PUBLIC_CASES.length} official source groups</span>
             </div>
             <div class="case-list">
               ${PUBLIC_CASES.map(renderCase).join("")}
@@ -300,7 +310,7 @@ function renderFraudBonk(t = getStrings("en")) {
   </div>`;
 }
 
-export function renderAdmin({ reports = [], tokenPresent = false, token = "" } = {}) {
+export function renderAdmin({ reports = [], authenticated = false, csrfToken = "", loginError = "" } = {}) {
   return html`<!doctype html>
     <html lang="en">
       <head>
@@ -317,12 +327,184 @@ export function renderAdmin({ reports = [], tokenPresent = false, token = "" } =
           <section class="section-head">
             <p class="eyebrow">Moderation queue</p>
             <h1>Private reports awaiting review</h1>
-            <p>${tokenPresent ? "Approve only when an entry has official or independently verifiable public evidence." : "Set ADMIN_TOKEN and pass ?token=... to access reports."}</p>
+            <p>${authenticated ? "Approve only when an entry has official or independently verifiable public evidence. Keep weak reports private." : "Sign in with the admin token stored in Cloudflare secrets."}</p>
           </section>
-          <div class="admin-list">
-            ${reports.length === 0 ? html`<p class="empty">No reports in this view.</p>` : reports.map((report) => renderReport(report, token)).join("")}
-          </div>
+          ${
+            authenticated
+              ? html`<form class="logout-form" method="post" action="/admin/logout"><button class="button secondary" type="submit">Sign out</button></form>
+                <div class="admin-list">
+                  ${reports.length === 0 ? html`<p class="empty">No reports in this view.</p>` : reports.map((report) => renderReport(report, csrfToken)).join("")}
+                </div>`
+              : html`<form class="report-form admin-login" method="post" action="/admin/login">
+                  <label>
+                    Admin token
+                    <input required name="token" type="password" autocomplete="current-password" placeholder="Cloudflare ADMIN_TOKEN" />
+                  </label>
+                  <button class="button primary" type="submit">Sign in</button>
+                  ${loginError ? html`<p class="form-status error">${escapeHtml(loginError)}</p>` : ""}
+                </form>`
+          }
         </main>
+      </body>
+    </html>`;
+}
+
+export function renderMethodology({ origin = "https://kimchicanary.xyz" } = {}) {
+  const canonicalUrl = `${origin}/methodology`;
+  return html`<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Kimchi Canary methodology for evidence-first DPRK remote IT worker fraud screening." />
+        <link rel="canonical" href="${escapeAttribute(canonicalUrl)}" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <title>Methodology | Kimchi Canary</title>
+        <style>${styles()}</style>
+      </head>
+      <body>
+        ${renderSimpleTopbar()}
+        <main class="page-main">
+          <section class="section-head">
+            <p class="eyebrow">Methodology</p>
+            <h1>Evidence first. No nationality shortcuts.</h1>
+            <p>Kimchi Canary is a risk triage desk for hiring, vendor review, and incident response. It helps teams preserve records and slow down access when independently verifiable fraud indicators appear.</p>
+          </section>
+          <section class="plain-grid">
+            <article>
+              <h2>What gets scored</h2>
+              <p>Only observed operational indicators: identity mismatch, borrowed documents, remote-control tooling, impossible location patterns, shipping-route conflicts, payout anomalies, repository access behavior, and official public records.</p>
+            </article>
+            <article>
+              <h2>What does not get scored</h2>
+              <p>Nationality, ethnicity, fashion, accent, political speech, or discomfort on camera do not create a finding. Accent, dialect, or South Korea-specific details can only support a claim-consistency review when the candidate made that claim.</p>
+            </article>
+            <article>
+              <h2>Public watchlist policy</h2>
+              <p>Public entries are limited to official or equivalently reliable public records: FBI, DOJ, OFAC, sanctions notices, wanted pages, indictments, pleas, or sentencings. Allegations remain allegations unless a court or authority has resolved them.</p>
+            </article>
+            <article>
+              <h2>Community reports</h2>
+              <p>Reports are private by default. Approval requires a moderator review, a source or evidence summary, and enough detail for an employer to verify internally. Weak reports stay private or are rejected.</p>
+            </article>
+            <article>
+              <h2>Corrections and removals</h2>
+              <p>People or companies can request correction, extra context, or removal review by emailing <a href="mailto:dev.koriel@gmail.com">dev.koriel@gmail.com</a>. Include the case URL and the record you want corrected.</p>
+            </article>
+            <article>
+              <h2>Operational caution</h2>
+              <p>This is not legal advice and not an automated hiring decision system. Use it to guide due diligence, preserve evidence, and consult counsel for sanctions and employment-law decisions.</p>
+            </article>
+          </section>
+        </main>
+        ${renderFooter()}
+      </body>
+    </html>`;
+}
+
+export function renderHiringKit({ origin = "https://kimchicanary.xyz" } = {}) {
+  const canonicalUrl = `${origin}/kit`;
+  return html`<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Printable Kimchi Canary hiring kit for Web3 HR and security teams." />
+        <link rel="canonical" href="${escapeAttribute(canonicalUrl)}" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <title>Printable Hiring Kit | Kimchi Canary</title>
+        <style>${styles()}</style>
+      </head>
+      <body>
+        ${renderSimpleTopbar()}
+        <main class="page-main kit-page">
+          <section class="section-head">
+            <p class="eyebrow">Printable hiring kit</p>
+            <h1>Receipts first. Access later.</h1>
+            <p>A short desk checklist for HR, security, founders, and vendor managers screening remote technical hires in crypto and Web3.</p>
+            <button class="button primary print-button" type="button" onclick="window.print()">Print kit</button>
+          </section>
+          <section class="kit-grid">
+            ${[
+              ["Before interview", ["Verify identity, work authorization, school, and prior employment through independently sourced contacts.", "Require the candidate to explain their work setup, normal work hours, payroll/KYC route, and equipment delivery path.", "Flag reused resume text, repeated portfolios, duplicated profile photos, or shared payout details across applicants."]],
+              ["Before laptop ships", ["Ship only to the address reconciled with verified identity records.", "Do not ship to a vendor, friend, hotel, mailbox, or last-minute alternate address without escalation.", "Keep MDM, EDR, logging, remote-access controls, and asset inventory ready before the device leaves."]],
+              ["Before code access", ["Grant least privilege. Delay production, wallet, CI/CD, secrets, and signing-key access.", "Block unapproved VPN, proxy, KVM, remote desktop, and remote-control software.", "Watch for repository cloning, unusual off-hours access, and account logins from impossible locations."]],
+              ["Crypto payroll reality", ["USDC or crypto payroll is normal in Web3; it is not a fraud signal by itself.", "Treat payment risk as contextual: mismatched KYC, third-party accounts, exchange pressure, tumbling requests, or inconsistent wallet ownership.", "Match payout accounts to the verified worker and preserve payroll/KYC records."]],
+              ["If risk appears", ["Pause access expansion and preserve logs, interview records, documents, shipping records, and payout records.", "Ask neutral claim-specific questions. Avoid nationality tests or humiliating prompts.", "Escalate to legal, compliance, security, vendor owners, and relevant reporting channels when evidence supports it."]],
+              ["The canary rule", ["One odd detail is a thread. Several independent conflicts are a rope.", "If the story needs a stranger's laptop, a borrowed identity, and a magic VPN, the bird is coughing.", "No witch hunts. Receipts or it stays private."]],
+            ]
+              .map(
+                ([title, items]) => html`<article>
+                  <h2>${escapeHtml(title)}</h2>
+                  <ul>${items.map((item) => html`<li>${escapeHtml(item)}</li>`).join("")}</ul>
+                </article>`,
+              )
+              .join("")}
+          </section>
+        </main>
+        ${renderFooter()}
+      </body>
+    </html>`;
+}
+
+export function renderCaseDetail({ caseItem, origin = "https://kimchicanary.xyz" } = {}) {
+  const source = SOURCE_BY_ID.get(caseItem.sourceId);
+  const canonicalUrl = `${origin}/cases/${caseItem.id}`;
+  const names = caseItem.names.flatMap((person) => [person.name, ...person.aliases]).join(", ");
+  return html`<!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="${escapeAttribute(caseItem.summary)}" />
+        <link rel="canonical" href="${escapeAttribute(canonicalUrl)}" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <meta property="og:title" content="${escapeAttribute(`${caseItem.title} | Kimchi Canary`)}" />
+        <meta property="og:description" content="${escapeAttribute(caseItem.summary)}" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="${escapeAttribute(canonicalUrl)}" />
+        <meta property="og:image" content="${escapeAttribute(`${origin}/og.png`)}" />
+        <title>${escapeHtml(caseItem.title)} | Kimchi Canary</title>
+        <style>${styles()}</style>
+      </head>
+      <body>
+        ${renderSimpleTopbar()}
+        <main class="page-main">
+          <article class="case-detail">
+            <div class="case-meta">
+              <span>${escapeHtml(caseItem.status)}</span>
+              <time datetime="${escapeHtml(caseItem.date)}">${escapeHtml(caseItem.date)}</time>
+            </div>
+            <h1>${escapeHtml(caseItem.title)}</h1>
+            <p class="subtitle">${escapeHtml(caseItem.summary)}</p>
+            ${renderPhotos(caseItem.photos)}
+            <section class="plain-grid two">
+              <article>
+                <h2>Listed people/entities</h2>
+                <div class="names">
+                  ${caseItem.names
+                    .map((person) => html`<span>${escapeHtml(person.name)}${person.aliases.length ? html` <small>aka ${escapeHtml(person.aliases.join(", "))}</small>` : ""}</span>`)
+                    .join("")}
+                </div>
+              </article>
+              <article>
+                <h2>Observed indicators from source</h2>
+                <ul>${caseItem.indicators.map((indicator) => html`<li>${escapeHtml(indicator)}</li>`).join("")}</ul>
+              </article>
+            </section>
+            <section class="case-card">
+              <h2>Source record</h2>
+              <p>${source ? `${escapeHtml(source.publisher)} · ${escapeHtml(source.date)} · ${escapeHtml(source.title)}` : "Official source linked below."}</p>
+              <p>Search names: ${escapeHtml(names)}</p>
+              <div class="case-links">
+                <a href="${escapeAttribute(caseItem.link)}" target="_blank" rel="noreferrer">Official case page</a>
+                ${source ? html`<a href="${escapeAttribute(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.publisher)} source</a>` : ""}
+                <a href="/#cases">Back to watchlist</a>
+              </div>
+            </section>
+          </article>
+        </main>
+        ${renderFooter()}
       </body>
     </html>`;
 }
@@ -409,6 +591,10 @@ function localizeEvidenceItems(assessment, t) {
 
 function renderReportForm(t) {
   return html`<form class="report-form" id="report-form">
+    <label class="trap" aria-hidden="true">
+      Website
+      <input name="website" type="text" autocomplete="off" tabindex="-1" />
+    </label>
     <div class="form-row">
       <label>
         Reporter email
@@ -425,13 +611,52 @@ function renderReportForm(t) {
         <input required name="subjectName" type="text" maxlength="200" placeholder="Name, handle, vendor, or profile URL" />
       </label>
       <label>
-        Source URL
-        <input name="sourceUrl" type="url" placeholder="Official source, profile, or evidence URL" />
+        Suspect profile URL
+        <input name="subjectProfileUrl" type="url" placeholder="GitHub, LinkedIn, portfolio, vendor profile" />
       </label>
     </div>
+    <div class="form-row">
+      <label>
+        Source or evidence URL
+        <input name="sourceUrl" type="url" placeholder="Official source, case page, archived profile, or evidence URL" />
+      </label>
+      <label>
+        Evidence summary
+        <input name="evidenceSummary" type="text" maxlength="2000" placeholder="One-line fact pattern for moderator verification" />
+      </label>
+    </div>
+    <fieldset class="evidence-fieldset">
+      <legend>
+        <span>Evidence type</span>
+        <small>Select every category you can support with records.</small>
+      </legend>
+      <div class="checkbox-grid">
+        ${[
+          ["identity", "Identity or document mismatch"],
+          ["profile", "Profile, resume, portfolio, or reused account"],
+          ["device", "Device, proxy, VPN, KVM, or shipping path"],
+          ["payment", "Payroll, USDC, wallet, exchange, or payout route"],
+          ["interview", "Live interview, video, language, or work-history inconsistency"],
+          ["access", "Repository, production, secrets, or system-access behavior"],
+          ["official", "Official source or law-enforcement notice"],
+          ["other", "Other independently verifiable evidence"],
+        ]
+          .map(
+            ([value, label]) => html`<label class="mini-check">
+              <input type="checkbox" name="evidenceType" value="${escapeAttribute(value)}" />
+              <span>${escapeHtml(label)}</span>
+            </label>`,
+          )
+          .join("")}
+      </div>
+    </fieldset>
     <label>
       What happened?
       <textarea required name="narrative" rows="6" maxlength="6000" placeholder="List observed facts, dates, systems involved, and evidence you can provide privately."></textarea>
+    </label>
+    <label class="consent">
+      <input type="checkbox" name="contactPermission" value="yes" />
+      <span>You may contact me for moderation follow-up. Do not publish my contact details.</span>
     </label>
     <label class="consent">
       <input required type="checkbox" name="acknowledge" value="yes" />
@@ -450,7 +675,8 @@ function renderDisabledReports() {
 
 function renderCase(item) {
   const source = SOURCE_BY_ID.get(item.sourceId);
-  return html`<article class="case-card">
+  const searchText = caseSearchText(item, source);
+  return html`<article class="case-card" data-case-card data-search="${escapeAttribute(searchText)}">
     ${renderPhotos(item.photos)}
     <div class="case-meta">
       <span>${escapeHtml(item.status)}</span>
@@ -468,10 +694,28 @@ function renderCase(item) {
     </details>
     <ul>${item.indicators.map((indicator) => html`<li>${escapeHtml(indicator)}</li>`).join("")}</ul>
     <div class="case-links">
+      <a href="/cases/${escapeAttribute(item.id)}">Case detail</a>
       <a href="${escapeAttribute(item.link)}" target="_blank" rel="noreferrer">Official case page</a>
       ${source ? html`<a href="${escapeAttribute(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.publisher)}</a>` : ""}
     </div>
   </article>`;
+}
+
+function caseSearchText(item, source) {
+  return [
+    item.id,
+    item.title,
+    item.status,
+    item.summary,
+    item.date,
+    source?.publisher,
+    source?.title,
+    ...item.indicators,
+    ...item.names.flatMap((person) => [person.name, ...person.aliases]),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
 }
 
 function renderPhotos(photos = []) {
@@ -503,13 +747,21 @@ function renderApprovedReports(reports) {
 }
 
 function renderApprovedReport(report) {
+  const evidenceTypes = String(report.evidence_type || "")
+    .split(",")
+    .filter(Boolean)
+    .join(", ");
   return html`<article class="case-card community-card">
     <div class="case-meta">
-      <span>Approved report</span>
+      <span>Approved report${report.reviewer_confidence ? ` · ${escapeHtml(report.reviewer_confidence)}` : ""}</span>
       <time datetime="${escapeHtml(report.reviewed_at || report.created_at)}">${escapeHtml(report.reviewed_at || report.created_at)}</time>
     </div>
     <h3>${escapeHtml(report.subject_name)}</h3>
+    ${report.subject_profile_url ? html`<p><strong>Profile:</strong> <a href="${escapeAttribute(report.subject_profile_url)}" target="_blank" rel="noreferrer">${escapeHtml(report.subject_profile_url)}</a></p>` : ""}
+    ${report.evidence_summary ? html`<p><strong>Evidence summary:</strong> ${escapeHtml(report.evidence_summary)}</p>` : ""}
+    ${evidenceTypes ? html`<p><strong>Evidence type:</strong> ${escapeHtml(evidenceTypes)}</p>` : ""}
     <p>${escapeHtml(report.narrative)}</p>
+    ${report.reviewer_note ? html`<p><strong>Reviewer note:</strong> ${escapeHtml(report.reviewer_note)}</p>` : ""}
     ${report.source_url ? html`<div class="case-links"><a href="${escapeAttribute(report.source_url)}" target="_blank" rel="noreferrer">Submitted source</a></div>` : ""}
   </article>`;
 }
@@ -522,8 +774,12 @@ function renderSource(source) {
   </a>`;
 }
 
-function renderReport(report, token) {
-  const action = `/api/admin/reports/${encodeURIComponent(report.id)}/status${token ? `?token=${encodeURIComponent(token)}` : ""}`;
+function renderReport(report, csrfToken) {
+  const action = `/api/admin/reports/${encodeURIComponent(report.id)}/status`;
+  const evidenceTypes = String(report.evidence_type || "")
+    .split(",")
+    .filter(Boolean)
+    .join(", ");
   return html`<article class="case-card">
     <div class="case-meta">
       <span>${escapeHtml(report.status)}</span>
@@ -532,9 +788,29 @@ function renderReport(report, token) {
     <h3>${escapeHtml(report.subject_name)}</h3>
     <p>${escapeHtml(report.narrative)}</p>
     <p><strong>Reporter:</strong> ${escapeHtml(report.reporter_email)} ${report.organization ? `(${escapeHtml(report.organization)})` : ""}</p>
+    ${report.contact_permission === "yes" ? html`<p><strong>Follow-up:</strong> Reporter granted private contact for moderation.</p>` : ""}
+    ${report.subject_profile_url ? html`<p><strong>Profile:</strong> <a href="${escapeAttribute(report.subject_profile_url)}" target="_blank" rel="noreferrer">${escapeHtml(report.subject_profile_url)}</a></p>` : ""}
+    ${report.evidence_summary ? html`<p><strong>Evidence summary:</strong> ${escapeHtml(report.evidence_summary)}</p>` : ""}
+    ${evidenceTypes ? html`<p><strong>Evidence type:</strong> ${escapeHtml(evidenceTypes)}</p>` : ""}
     ${report.source_url ? html`<a href="${escapeAttribute(report.source_url)}" target="_blank" rel="noreferrer">${escapeHtml(report.source_url)}</a>` : ""}
     ${report.reviewer_note ? html`<p><strong>Reviewer note:</strong> ${escapeHtml(report.reviewer_note)}</p>` : ""}
+    ${report.reviewer_name ? html`<p><strong>Reviewer:</strong> ${escapeHtml(report.reviewer_name)} ${report.reviewer_confidence ? `(${escapeHtml(report.reviewer_confidence)})` : ""}</p>` : ""}
     <form class="moderation-form" method="post" action="${escapeAttribute(action)}">
+      <input type="hidden" name="csrf" value="${escapeAttribute(csrfToken)}" />
+      <div class="form-row">
+        <label>
+          Reviewer name
+          <input name="reviewerName" maxlength="120" placeholder="Internal reviewer or handle" />
+        </label>
+        <label>
+          Reviewer confidence
+          <select name="reviewerConfidence">
+            <option value="reviewed">Reviewed lead</option>
+            <option value="limited">Limited evidence</option>
+            <option value="strong">Strong independent evidence</option>
+          </select>
+        </label>
+      </div>
       <label>
         Reviewer note
         <input name="reviewerNote" maxlength="1000" placeholder="Why this is approved, rejected, or kept pending" />
@@ -581,6 +857,26 @@ function renderAlternateLinks(origin) {
   return links.join("");
 }
 
+function renderSimpleTopbar() {
+  return html`<header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">KC</span><span>Kimchi Canary</span></a>
+    <nav aria-label="Primary">
+      <a href="/#assessment">Assessment</a>
+      <a href="/#cases">Watchlist</a>
+      <a href="/methodology">Methodology</a>
+      <a href="/kit">Hiring kit</a>
+      <a href="/#reports">Report</a>
+    </nav>
+  </header>`;
+}
+
+function renderFooter() {
+  return html`<footer>
+    <strong>Kimchi Canary</strong>
+    <span>Operational guidance, not legal advice. Consult counsel for sanctions and employment-law decisions.</span>
+  </footer>`;
+}
+
 function jsonLd(value) {
   return JSON.stringify(value).replaceAll("<", "\\u003c");
 }
@@ -615,6 +911,7 @@ function clientScript(language) {
       event.preventDefault();
       const formData = new FormData(reportForm);
       const payload = Object.fromEntries(formData.entries());
+      payload.evidenceTypes = formData.getAll("evidenceType");
       const response = await fetch("/api/reports", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -624,6 +921,20 @@ function clientScript(language) {
       reportStatus.textContent = result.message || (response.ok ? "Report received." : "Unable to submit report.");
       reportStatus.classList.toggle("error", !response.ok);
       if (response.ok) reportForm.reset();
+    });
+
+    const caseSearch = document.querySelector("#case-search");
+    const caseCount = document.querySelector("#case-count");
+    const caseCards = [...document.querySelectorAll("[data-case-card]")];
+    caseSearch?.addEventListener("input", () => {
+      const query = caseSearch.value.trim().toLowerCase();
+      let visible = 0;
+      for (const card of caseCards) {
+        const match = !query || card.dataset.search.includes(query);
+        card.hidden = !match;
+        if (match) visible += 1;
+      }
+      if (caseCount) caseCount.textContent = visible + " matching official source group" + (visible === 1 ? "" : "s");
     });
   `;
 }
@@ -1142,6 +1453,13 @@ function styles() {
       display: grid;
       gap: 14px;
     }
+    .trap {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
     .form-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1161,12 +1479,48 @@ function styles() {
       font-weight: 650;
       color: var(--muted);
     }
+    .evidence-fieldset {
+      padding: 0;
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+    }
+    .mini-check {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr);
+      align-items: start;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid rgba(16, 20, 24, 0.08);
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .mini-check:nth-child(odd) { border-right: 1px solid rgba(16, 20, 24, 0.08); }
+    .mini-check input { width: 18px; margin-top: 3px; accent-color: var(--accent); }
     .form-status { min-height: 24px; margin: 0; font-weight: 800; color: var(--green); }
     .form-status.error { color: var(--accent-dark); }
     .case-list, .source-list, .admin-list {
       display: grid;
       grid-template-columns: 1fr;
       gap: 14px;
+    }
+    .watchlist-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 14px;
+      margin: 0 0 16px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.84);
+    }
+    .watchlist-tools span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 850;
+      white-space: nowrap;
     }
     .case-card {
       display: grid;
@@ -1262,7 +1616,50 @@ function styles() {
       background: var(--panel);
     }
     .admin-main { padding-top: 48px; padding-bottom: 48px; }
+    .logout-form { margin-bottom: 16px; }
+    .admin-login { max-width: 520px; }
     .empty { color: var(--muted); }
+    .page-main {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: clamp(48px, 7vw, 88px) clamp(18px, 5vw, 72px);
+    }
+    .page-main h1 {
+      max-width: 980px;
+      margin-bottom: 18px;
+      font-size: clamp(46px, 7vw, 92px);
+      line-height: 0.92;
+    }
+    .plain-grid, .kit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .plain-grid.two { margin-top: 18px; }
+    .plain-grid article, .kit-grid article, .case-detail {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 18px;
+    }
+    .case-detail {
+      display: grid;
+      gap: 18px;
+      padding: clamp(18px, 3vw, 28px);
+    }
+    .plain-grid h2, .kit-grid h2, .case-detail h2 {
+      font-size: 24px;
+      line-height: 1.1;
+    }
+    .plain-grid ul, .kit-grid ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .print-button { margin-top: 8px; }
 
     @media (max-width: 980px) {
       .topbar { align-items: stretch; flex-direction: column; }
@@ -1280,7 +1677,7 @@ function styles() {
         max-height: none;
         overflow: visible;
       }
-      .steps, .trust-grid, .result-columns, .prompt-grid { grid-template-columns: 1fr; }
+      .steps, .trust-grid, .result-columns, .prompt-grid, .plain-grid, .kit-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .topbar {
@@ -1291,7 +1688,7 @@ function styles() {
       }
       nav {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
       }
       nav a {
@@ -1311,10 +1708,19 @@ function styles() {
       .fraud-bonk { box-shadow: 4px 4px 0 var(--ink); }
       .bonk-copy { flex-direction: column; }
       .stat-row { display: none; }
-      .form-row, .score-summary { grid-template-columns: 1fr; }
+      .form-row, .score-summary, .checkbox-grid, .watchlist-tools { grid-template-columns: 1fr; }
+      .mini-check:nth-child(odd) { border-right: 0; }
       .score-circle { margin: 0 auto; }
       .hero-actions, footer, .case-meta { flex-direction: column; }
       .photo-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media print {
+      body { background: #fff; color: #000; }
+      .topbar, .print-button, footer, .hero-actions, .fraud-bonk { display: none !important; }
+      .page-main { width: 100%; padding: 0; }
+      .kit-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .kit-grid article, .plain-grid article, .case-detail { break-inside: avoid; box-shadow: none; }
+      a { color: #000; }
     }
     @media (prefers-reduced-motion: reduce) {
       .bonk-glove, .fake-stack, .proxy-laptop, .bonk-burst {

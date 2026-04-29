@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { LANGUAGES, getStrings } from "../src/i18n.js";
-import { renderHome } from "../src/render.js";
+import { renderCaseDetail, renderHiringKit, renderHome, renderMethodology } from "../src/render.js";
+import { PUBLIC_CASES } from "../src/cases.js";
 
 test("exposes the broad language set with operational translations", () => {
   assert.deepEqual(
@@ -47,4 +48,27 @@ test("keeps sticky result CSS unblocked by the main layout", () => {
   assert.match(html, /"prompts result"/);
   assert.match(html, /max-height: calc\(100vh - 120px\)/);
   assert.doesNotMatch(html, /"prompts prompts"/);
+});
+
+test("adds operational trust surfaces and searchable watchlist", () => {
+  const html = renderHome({ origin: "https://kimchicanary.xyz" });
+
+  assert.match(html, /href="\/methodology"/);
+  assert.match(html, /href="\/kit"/);
+  assert.match(html, /id="case-search"/);
+  assert.match(html, /data-case-card/);
+  assert.match(html, /Case detail/);
+});
+
+test("renders methodology, printable kit, and case detail pages", () => {
+  const methodology = renderMethodology({ origin: "https://kimchicanary.xyz" });
+  const kit = renderHiringKit({ origin: "https://kimchicanary.xyz" });
+  const detail = renderCaseDetail({ caseItem: PUBLIC_CASES[0], origin: "https://kimchicanary.xyz" });
+
+  assert.match(methodology, /Evidence first\. No nationality shortcuts\./);
+  assert.match(methodology, /Corrections and removals/);
+  assert.match(kit, /Printable hiring kit/);
+  assert.match(kit, /USDC or crypto payroll is normal in Web3/);
+  assert.match(detail, /Listed people\/entities/);
+  assert.match(detail, /Official case page/);
 });

@@ -15,6 +15,9 @@ The site is intentionally conservative:
 The Worker serves:
 
 - `/` with canonical, Open Graph, Twitter card, hreflang, and JSON-LD metadata
+- `/methodology` with source, moderation, fairness, and correction policy
+- `/kit` with a printable hiring checklist for HR/security workflows
+- `/cases/:id` with official-source case detail pages
 - `/og.png` as the first-party share card, generated from `/og.svg`
 - `/favicon.ico`, `/favicon.svg`, `/favicon.png`, and `/apple-touch-icon.png`
 - `/robots.txt`
@@ -44,13 +47,15 @@ Set an admin token before deployment:
 wrangler secret put ADMIN_TOKEN
 ```
 
-Open `/admin?token=...` to view private reports.
+Open `/admin` and sign in with the token. The admin page uses an HTTP-only session cookie and CSRF tokens for moderation forms; do not pass the token in URLs.
 
 Admin moderation supports three states:
 
 - `pending` keeps a report private
 - `approved` allows the report to appear as a reviewed community submission
 - `rejected` keeps it out of the public site
+
+Approved reports should include an evidence summary, a source URL, or a reviewer note. Weak reports should stay private or be rejected.
 
 Public watchlist entries in `src/cases.js` should stay limited to official or equivalently reliable public records. Do not add social-media accusations or unverified screenshots as public cases.
 
