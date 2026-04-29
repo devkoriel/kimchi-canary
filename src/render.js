@@ -87,14 +87,15 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
               <h1>${escapeHtml(t.title)}</h1>
               <p class="subtitle">${escapeHtml(t.subtitle)}</p>
               <p class="hero-copy">${escapeHtml(t.heroCopy)}</p>
+              ${renderFraudBonk(t)}
               <div class="hero-actions">
                 <a class="button primary" href="#assessment">${escapeHtml(t.startAssessment)}</a>
-                <a class="button secondary" href="#cases">Open watchlist</a>
+                <a class="button secondary" href="#cases">${escapeHtml(t.watchlist || "Watchlist")}</a>
               </div>
               <div class="stat-row" aria-label="Database scope">
-                <span><strong>${PUBLIC_CASES.length}</strong> verified source groups</span>
-                <span><strong>${listedSubjects}</strong> listed people/entities</span>
-                <span><strong>${officialPhotos}</strong> official photos</span>
+                <span><strong>${PUBLIC_CASES.length}</strong> ${escapeHtml(t.verifiedSourceGroups || "verified source groups")}</span>
+                <span><strong>${listedSubjects}</strong> ${escapeHtml(t.listedSubjects || "listed people/entities")}</span>
+                <span><strong>${officialPhotos}</strong> ${escapeHtml(t.officialPhotos || "official photos")}</span>
               </div>
             </div>
           </section>
@@ -105,62 +106,39 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
               <h2>${escapeHtml(t.trustCopy)}</h2>
             </div>
             <div class="trust-grid">
-              <article>
-                <strong>Evidence first</strong>
-                <p>Public watchlist entries require official sanctions, law-enforcement, court, or equivalent public-source backing.</p>
-              </article>
-              <article>
-                <strong>Private by default</strong>
-                <p>Reports enter a moderation queue and are not published until approved with sufficient evidence.</p>
-              </article>
-              <article>
-                <strong>Fair screening</strong>
-                <p>No nationality-only screening, ethnicity proxies, forced slogans, or political loyalty tests.</p>
-              </article>
+              ${(t.trustCards || []).map((card) => html`<article><strong>${escapeHtml(card.title)}</strong><p>${escapeHtml(card.copy)}</p></article>`).join("")}
             </div>
           </section>
 
           <section class="tool-grid" id="assessment">
             <div class="section-head">
               <p class="eyebrow">${escapeHtml(t.assessmentTitle)}</p>
-              <h2>Screen observed fraud indicators before access increases.</h2>
+              <h2>${escapeHtml(t.assessmentHeading || "Screen observed fraud indicators before access increases.")}</h2>
               <p>${escapeHtml(t.assessmentCopy)}</p>
+              ${language !== "en" && t.translationNote ? html`<p class="translation-note">${escapeHtml(t.translationNote)}</p>` : ""}
             </div>
             <aside class="result-panel" id="result-panel" aria-live="polite">
               ${renderAssessment(initialAssessment, t)}
             </aside>
             <form class="questionnaire" id="questionnaire">
-              ${SIGNAL_CATEGORIES.map((category) => renderCategory(category)).join("")}
+              ${SIGNAL_CATEGORIES.map((category) => renderCategory(category, t)).join("")}
             </form>
-            ${renderInterviewPrompts()}
+            ${renderInterviewPrompts(t)}
           </section>
 
           <section class="workflow">
             <div class="section-head">
-              <p class="eyebrow">Operational playbook</p>
-              <h2>Useful in real hiring, vendor review, and incident response.</h2>
+              <p class="eyebrow">${escapeHtml(t.playbookEyebrow || "Operational playbook")}</p>
+              <h2>${escapeHtml(t.playbookTitle || "Useful in real hiring, vendor review, and incident response.")}</h2>
             </div>
             <div class="steps">
-              <article>
-                <span>01</span>
-                <h3>Before interview</h3>
-                <p>Verify identity, education, employment, sanctions status, and vendor controls through independent channels.</p>
-              </article>
-              <article>
-                <span>02</span>
-                <h3>Before equipment ships</h3>
-                <p>Ship only to verified addresses, use MDM, block unauthorized remote access, and delay repository access.</p>
-              </article>
-              <article>
-                <span>03</span>
-                <h3>Before production access</h3>
-                <p>Use least privilege, watch for impossible travel, review payout mismatches, and log source-control activity.</p>
-              </article>
-              <article>
-                <span>04</span>
-                <h3>If signals appear</h3>
-                <p>Preserve evidence, pause access, involve counsel/compliance, and report through IC3 or the right authority.</p>
-              </article>
+              ${(t.workflowSteps || []).map(
+                (step, index) => html`<article>
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${escapeHtml(step.title)}</h3>
+                  <p>${escapeHtml(step.copy)}</p>
+                </article>`,
+              ).join("")}
             </div>
           </section>
 
@@ -274,7 +252,49 @@ export function renderFaviconImage() {
     <path d="M329 206l72-36-24 76" fill="#ffcc3d" stroke="#101418" stroke-width="18" stroke-linejoin="round" />
     <circle cx="304" cy="227" r="16" fill="#101418" />
     <path d="M103 421h304" stroke="#101418" stroke-width="24" stroke-linecap="round" />
-  </svg>`;
+    </svg>`;
+}
+
+function renderFraudBonk(t = getStrings("en")) {
+  return html`<div class="fraud-bonk" aria-label="${escapeAttribute(t.bonkAria || "Cartoon fraud-screening animation")}">
+    <div class="bonk-stage">
+      <svg viewBox="0 0 720 260" role="img" aria-label="Cartoon glove bonks a fake resume and proxy laptop">
+        <defs>
+          <filter id="bonkShadow" x="-20%" y="-20%" width="140%" height="150%">
+            <feDropShadow dx="8" dy="10" stdDeviation="0" flood-color="#101418" flood-opacity="0.18" />
+          </filter>
+        </defs>
+        <g class="fake-stack" filter="url(#bonkShadow)">
+          <rect x="230" y="58" width="184" height="132" rx="8" fill="#fffdf8" stroke="#101418" stroke-width="5" />
+          <rect x="252" y="82" width="86" height="13" fill="#101418" />
+          <rect x="252" y="110" width="134" height="10" fill="#d7d2c4" />
+          <rect x="252" y="132" width="104" height="10" fill="#d7d2c4" />
+          <rect x="252" y="154" width="126" height="10" fill="#d7d2c4" />
+          <text x="252" y="184" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FAKE RESUME</text>
+        </g>
+        <g class="proxy-laptop">
+          <rect x="430" y="106" width="112" height="74" rx="8" fill="#101418" />
+          <rect x="444" y="120" width="84" height="42" fill="#f7f5ef" />
+          <path d="M414 190h146l-16 20H430z" fill="#101418" />
+          <text x="448" y="148" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="900">PROXY</text>
+        </g>
+        <g class="bonk-glove" filter="url(#bonkShadow)">
+          <path d="M115 112c0-23 19-42 42-42h42c19 0 35 15 35 34v18h36c19 0 34 15 34 34 0 26-21 47-47 47H157c-23 0-42-19-42-42v-49Z" fill="#b3261e" stroke="#101418" stroke-width="7" />
+          <path d="M151 73v-7c0-19 15-34 34-34s34 15 34 34v10" fill="#fffdf8" stroke="#101418" stroke-width="7" />
+          <path d="M219 78v-5c0-18 15-33 33-33s33 15 33 33v54" fill="#fffdf8" stroke="#101418" stroke-width="7" />
+          <path d="M304 148h82" stroke="#101418" stroke-width="12" stroke-linecap="round" />
+        </g>
+        <g class="bonk-burst">
+          <path d="M421 45l18 34 37-12-22 31 30 24-38 2-8 37-18-34-37 12 22-31-30-24 38-2z" fill="#ffd36a" stroke="#101418" stroke-width="5" />
+          <text x="406" y="116" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="950">BONK</text>
+        </g>
+      </svg>
+    </div>
+    <div class="bonk-copy">
+      <strong>${escapeHtml(t.bonkTitle || "Fake resume? Bonk.")}</strong>
+      <span>${escapeHtml(t.bonkCopy || "Receipts first. Vibes later. Laptops never ship to mystery addresses.")}</span>
+    </div>
+  </div>`;
 }
 
 export function renderAdmin({ reports = [], tokenPresent = false, token = "" } = {}) {
@@ -305,43 +325,47 @@ export function renderAdmin({ reports = [], tokenPresent = false, token = "" } =
 }
 
 export function renderAssessment(assessment, t = getStrings("en")) {
+  const levelText = t.levels?.[assessment.level] || { label: assessment.label, summary: assessment.summary };
+  const evidenceItems = localizeEvidenceItems(assessment, t);
   return html`<div class="score-row">
       <span>${escapeHtml(t.result)}</span>
-      <strong>${escapeHtml(assessment.label)}</strong>
+      <strong>${escapeHtml(levelText.label)}</strong>
     </div>
     <div class="score-summary">
       <div class="score-circle" style="--score: ${assessment.score}">
         <span>${escapeHtml(String(assessment.score))}</span>
         <small>${escapeHtml(t.score)}</small>
       </div>
-      <p>${escapeHtml(assessment.summary)}</p>
+      <p>${escapeHtml(levelText.summary)}</p>
     </div>
     <div class="result-columns">
       <div class="result-group">
         <h3>${escapeHtml(t.actions)}</h3>
-        <ul>${assessment.actions.map((action) => html`<li>${escapeHtml(action.label)}</li>`).join("")}</ul>
+        <ul>${assessment.actions.map((action) => html`<li>${escapeHtml(t.actionLabels?.[action.id] || action.label)}</li>`).join("")}</ul>
       </div>
       <div class="result-group">
         <h3>${escapeHtml(t.evidence)}</h3>
-        <ul>${assessment.evidenceGaps.slice(0, 6).map((item) => html`<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        <ul>${evidenceItems.slice(0, 6).map((item) => html`<li>${escapeHtml(item)}</li>`).join("")}</ul>
       </div>
     </div>`;
 }
 
-function renderCategory(category) {
+function renderCategory(category, t = getStrings("en")) {
   const signals = SIGNALS.filter((signal) => signal.category === category.id);
+  const label = t.categoryLabels?.[category.id] || category.label;
+  const description = t.categoryDescriptions?.[category.id] || category.description;
   return html`<fieldset>
     <legend>
-      <span>${escapeHtml(category.label)}</span>
-      ${category.description ? html`<small>${escapeHtml(category.description)}</small>` : ""}
+      <span>${escapeHtml(label)}</span>
+      ${description ? html`<small>${escapeHtml(description)}</small>` : ""}
     </legend>
     ${signals
       .map(
         (signal) => html`<label class="signal">
           <input type="checkbox" name="signal" value="${escapeHtml(signal.id)}" />
           <span>
-            <strong>${escapeHtml(signal.label)}</strong>
-            <small>Weight ${escapeHtml(String(signal.weight))}${signal.critical ? " / critical" : ""}</small>
+            <strong>${escapeHtml(t.signalLabels?.[signal.id] || signal.label)}</strong>
+            <small>${escapeHtml(t.weightLabel || "Weight")} ${escapeHtml(String(signal.weight))}${signal.critical ? ` / ${escapeHtml(t.criticalLabel || "critical")}` : ""}</small>
           </span>
         </label>`,
       )
@@ -349,15 +373,16 @@ function renderCategory(category) {
   </fieldset>`;
 }
 
-function renderInterviewPrompts() {
-  return html`<section class="prompt-bank" aria-label="Soft interview prompts">
+function renderInterviewPrompts(t = getStrings("en")) {
+  const promptGroups = t.interviewPromptGroups || INTERVIEW_PROMPTS;
+  return html`<section class="prompt-bank" aria-label="${escapeAttribute(t.promptTitle || "Soft interview prompts")}">
     <div class="prompt-head">
-      <p class="eyebrow">Soft interview prompts</p>
-      <h3>Use these only when they are tied to the candidate's own claims.</h3>
-      <p>These prompts test consistency, liveness, and verifiable work history. They are not nationality tests.</p>
+      <p class="eyebrow">${escapeHtml(t.promptTitle || "Soft interview prompts")}</p>
+      <h3>${escapeHtml(t.promptHeading || "Use these only when they are tied to the candidate's own claims.")}</h3>
+      <p>${escapeHtml(t.promptCopy || "These prompts test consistency, liveness, and verifiable work history. They are not nationality tests.")}</p>
     </div>
     <div class="prompt-grid">
-      ${INTERVIEW_PROMPTS.map(
+      ${promptGroups.map(
         (group) => html`<article>
           <h4>${escapeHtml(group.title)}</h4>
           <ul>${group.prompts.map((prompt) => html`<li>${escapeHtml(prompt)}</li>`).join("")}</ul>
@@ -365,6 +390,18 @@ function renderInterviewPrompts() {
       ).join("")}
     </div>
   </section>`;
+}
+
+function localizeEvidenceItems(assessment, t) {
+  if (!assessment.selectedSignals?.length) {
+    return t.baselineEvidenceGaps || assessment.evidenceGaps;
+  }
+
+  return assessment.selectedSignals.map((signal) => {
+    if (t.signalEvidence?.[signal.id]) return t.signalEvidence[signal.id];
+    const label = t.signalLabels?.[signal.id] || signal.label;
+    return t.evidenceTemplate ? t.evidenceTemplate.replace("{signal}", label) : signal.evidence;
+  });
 }
 
 function renderReportForm(t) {
@@ -679,7 +716,7 @@ function styles() {
       font: inherit;
       border-radius: 4px;
     }
-    main { overflow: hidden; }
+    main { overflow-x: clip; }
     .hero {
       display: grid;
       place-items: center;
@@ -744,6 +781,61 @@ function styles() {
       font-weight: 780;
     }
     .hero-copy { max-width: 720px; }
+    .fraud-bonk {
+      width: min(100%, 700px);
+      margin-top: 20px;
+      border: 2px solid var(--ink);
+      background: rgba(255, 253, 248, 0.84);
+      box-shadow: 6px 6px 0 var(--ink);
+      overflow: hidden;
+    }
+    .bonk-stage {
+      min-height: 190px;
+      background:
+        linear-gradient(90deg, rgba(16, 20, 24, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(16, 20, 24, 0.05) 1px, transparent 1px),
+        #fff8e8;
+      background-size: 24px 24px;
+    }
+    .bonk-stage svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .bonk-glove {
+      transform-origin: 330px 148px;
+      animation: bonkGlove 2.4s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+    }
+    .fake-stack {
+      transform-origin: 320px 130px;
+      animation: fakeWobble 2.4s ease-in-out infinite;
+    }
+    .proxy-laptop {
+      transform-origin: 486px 170px;
+      animation: proxyWobble 2.4s ease-in-out infinite;
+    }
+    .bonk-burst {
+      opacity: 0;
+      transform-origin: 430px 100px;
+      animation: bonkBurst 2.4s ease-in-out infinite;
+    }
+    .bonk-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-top: 2px solid var(--ink);
+      background: var(--panel);
+      text-align: left;
+    }
+    .bonk-copy strong {
+      color: var(--accent-dark);
+      font-weight: 950;
+    }
+    .bonk-copy span {
+      color: var(--muted);
+      font-weight: 750;
+    }
     .hero-actions, .case-links, .moderation-buttons {
       display: flex;
       gap: 10px;
@@ -769,6 +861,25 @@ function styles() {
     .button.primary { background: var(--accent); color: white; }
     .button.secondary { background: var(--panel); color: var(--ink); }
     .button.danger { background: #2b1111; color: white; }
+    @keyframes bonkGlove {
+      0%, 48%, 100% { transform: translateX(-28px) rotate(-5deg); }
+      58% { transform: translateX(92px) rotate(2deg); }
+      68% { transform: translateX(42px) rotate(-9deg); }
+    }
+    @keyframes fakeWobble {
+      0%, 52%, 100% { transform: rotate(0deg) translate(0, 0); }
+      58% { transform: rotate(5deg) translate(12px, 2px); }
+      66% { transform: rotate(-3deg) translate(-6px, 0); }
+    }
+    @keyframes proxyWobble {
+      0%, 54%, 100% { transform: translate(0, 0); }
+      60% { transform: translate(14px, 4px) rotate(3deg); }
+      70% { transform: translate(-5px, 0) rotate(-2deg); }
+    }
+    @keyframes bonkBurst {
+      0%, 54%, 100% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+      58%, 68% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
     .stat-row {
       display: flex;
       flex-wrap: wrap;
@@ -972,6 +1083,13 @@ function styles() {
     .contact-note {
       color: var(--muted);
       line-height: 1.55;
+    }
+    .translation-note {
+      max-width: 780px;
+      border-left: 4px solid var(--gold);
+      padding-left: 12px;
+      color: var(--muted);
+      font-size: 14px;
     }
     .contact-note a {
       color: var(--blue);
@@ -1183,11 +1301,19 @@ function styles() {
       h1 { font-size: 48px; }
       .subtitle { font-size: 21px; }
       .hero-copy { font-size: 15px; }
+      .fraud-bonk { box-shadow: 4px 4px 0 var(--ink); }
+      .bonk-copy { flex-direction: column; }
       .stat-row { display: none; }
       .form-row, .score-summary { grid-template-columns: 1fr; }
       .score-circle { margin: 0 auto; }
       .hero-actions, footer, .case-meta { flex-direction: column; }
       .photo-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bonk-glove, .fake-stack, .proxy-laptop, .bonk-burst {
+        animation: none;
+      }
+      .bonk-burst { opacity: 1; }
     }
   `;
 }
