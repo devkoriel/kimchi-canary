@@ -812,11 +812,18 @@ function styles() {
     .trust-grid strong { display: block; margin-bottom: 8px; }
     .tool-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+      grid-template-areas:
+        "head head"
+        "questions result"
+        "prompts prompts";
+      align-items: start;
       gap: 20px;
     }
+    .tool-grid > .section-head { grid-area: head; }
     .section-head { max-width: 960px; }
     .questionnaire {
+      grid-area: questions;
       display: grid;
       gap: 14px;
     }
@@ -866,6 +873,11 @@ function styles() {
       line-height: 1.4;
     }
     .result-panel {
+      grid-area: result;
+      position: sticky;
+      top: 96px;
+      align-self: start;
+      z-index: 8;
       padding: 20px;
       border: 2px solid var(--ink);
       background: var(--panel);
@@ -873,6 +885,8 @@ function styles() {
     }
     .score-row {
       display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: 14px;
       margin-bottom: 18px;
@@ -885,27 +899,36 @@ function styles() {
       gap: 18px;
     }
     .score-circle {
+      position: relative;
       display: grid;
       place-items: center;
+      align-content: center;
+      gap: 4px;
       width: 132px;
       height: 132px;
       border-radius: 999px;
       background: conic-gradient(var(--accent) calc(var(--score) * 1%), #ebe4d6 0);
       border: 2px solid var(--ink);
     }
-    .score-circle span {
-      display: grid;
-      place-items: center;
-      width: 96px;
-      height: 96px;
+    .score-circle::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
       border-radius: 999px;
       background: var(--panel);
-      font-size: 38px;
+    }
+    .score-circle span {
+      position: relative;
+      z-index: 1;
+      line-height: 1;
+      font-size: 40px;
       font-weight: 950;
     }
     .score-circle small {
-      margin-top: -28px;
+      position: relative;
+      z-index: 1;
       color: var(--muted);
+      font-size: 12px;
       font-weight: 800;
     }
     .result-columns {
@@ -924,7 +947,11 @@ function styles() {
       color: var(--muted);
       line-height: 1.5;
     }
+    .result-panel .result-columns {
+      grid-template-columns: 1fr;
+    }
     .prompt-bank {
+      grid-area: prompts;
       border: 1px solid var(--line);
       background: rgba(255, 253, 248, 0.84);
       padding: 18px;
@@ -1117,6 +1144,17 @@ function styles() {
     @media (max-width: 980px) {
       .topbar { align-items: stretch; flex-direction: column; }
       nav { justify-content: flex-start; }
+      .tool-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "head"
+          "result"
+          "questions"
+          "prompts";
+      }
+      .result-panel {
+        position: static;
+      }
       .steps, .trust-grid, .result-columns, .prompt-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
