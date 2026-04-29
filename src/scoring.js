@@ -30,6 +30,7 @@ export const INTERVIEW_PROMPTS = [
     prompts: [
       "Prefer open-ended memory questions over yes/no questions: real candidates usually answer with specific, messy details; coached answers often stay generic.",
       "If accent, wording, or technical vocabulary seems inconsistent with claimed education or work history, ask neutral follow-ups about the claim. Do not score accent alone.",
+      "For Korean-language concerns, ask a native South Korean reviewer to compare dialect, vocabulary, and professional terminology against the person's claimed background. Treat it as one corroborating clue only.",
       "Do not accuse during the interview. Ask for documentation, pause access, and compare claims across HR, device, payment, and source-control records.",
       "Use the same structured prompts for similarly situated candidates so the process stays fair, repeatable, and legally defensible.",
     ],
@@ -194,8 +195,8 @@ export const SIGNALS = [
     id: "languageHistoryMismatch",
     category: "interview",
     weight: 8,
-    label: "Accent, writing style, terminology, or live technical explanation is inconsistent with claimed education, work history, or language background.",
-    evidence: "Do not score accent alone. Record the claim, neutral follow-up questions, answers, and any verified education or employment records that conflict.",
+    label: "Accent, dialect, writing style, vocabulary, terminology, or live technical explanation is inconsistent with claimed education, work history, or language background.",
+    evidence: "Do not score accent alone. For Korean-language claims, use a native South Korean reviewer and record the claim, neutral follow-up questions, answers, and verified records that conflict.",
     actions: ["structuredInterview", "verifyDocuments"],
   },
   {

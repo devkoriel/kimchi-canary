@@ -44,6 +44,7 @@ test("interview prompt bank uses neutral consistency checks", () => {
   assert.match(promptText, /not (a )?nationality tests?/i);
   assert.match(promptText, /Do not score fashion/);
   assert.match(promptText, /Do not score accent alone/);
+  assert.match(promptText, /native South Korean reviewer/);
   assert.doesNotMatch(promptText, /loyalty/i);
 });
 
@@ -62,6 +63,7 @@ test("accent or language concerns are low-weight and require claim conflict", ()
   assert.equal(result.score, 8);
   assert.equal(result.level, "low");
   assert.match(result.evidenceGaps.join(" "), /Do not score accent alone/);
+  assert.match(result.evidenceGaps.join(" "), /native South Korean reviewer/);
   assert.ok(result.actions.some((action) => action.id === "verifyDocuments"));
 });
 

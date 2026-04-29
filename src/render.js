@@ -168,6 +168,7 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
             <div class="section-head">
               <p class="eyebrow">${escapeHtml(t.reportTitle)}</p>
               <h2>${escapeHtml(t.reportCopy)}</h2>
+              <p class="contact-note">Need native South Korean review for Korean-language, dialect, vocabulary, or claimed-background consistency? Contact <a href="mailto:dev.koriel@gmail.com">dev.koriel@gmail.com</a>.</p>
             </div>
             ${reportsEnabled ? renderReportForm(t) : renderDisabledReports()}
           </section>
@@ -940,6 +941,14 @@ function styles() {
       margin: 8px 0 0;
       color: var(--muted);
       line-height: 1.55;
+    }
+    .contact-note {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .contact-note a {
+      color: var(--blue);
+      font-weight: 850;
     }
     .prompt-grid {
       display: grid;
