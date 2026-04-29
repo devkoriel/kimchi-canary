@@ -1,0 +1,18 @@
+{
+  "name": "kimchi-canary",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Web3 HR risk triage for DPRK remote IT worker fraud indicators.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create kimchi-canary-db",
+    "db:migrate:local": "wrangler d1 migrations apply kimchi-canary-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply kimchi-canary-db --remote",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "wrangler": "^4.83.0"
+  }
+}
