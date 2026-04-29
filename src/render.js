@@ -14,7 +14,7 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
   const listedSubjects = PUBLIC_CASES.reduce((total, item) => total + item.names.length, 0);
   const officialPhotos = PUBLIC_CASES.reduce((total, item) => total + (item.photos?.length || 0), 0);
   const canonicalUrl = `${origin}/`;
-  const ogImageUrl = `${origin}/og.svg`;
+  const ogImageUrl = `${origin}/og.png`;
   const description = "Kimchi Canary helps Web3 HR, security, and compliance teams screen DPRK remote IT worker fraud indicators with official-source guidance.";
 
   return html`<!doctype html>
@@ -25,6 +25,9 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
         <meta name="description" content="${escapeAttribute(description)}" />
         <meta name="robots" content="index,follow,max-image-preview:large" />
         <link rel="canonical" href="${escapeAttribute(canonicalUrl)}" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         ${renderAlternateLinks(origin)}
         <meta property="og:title" content="Kimchi Canary | Web3 Hiring Risk Desk" />
         <meta property="og:description" content="${escapeAttribute(description)}" />
@@ -32,7 +35,7 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
         <meta property="og:url" content="${escapeAttribute(canonicalUrl)}" />
         <meta property="og:site_name" content="Kimchi Canary" />
         <meta property="og:image" content="${escapeAttribute(ogImageUrl)}" />
-        <meta property="og:image:type" content="image/svg+xml" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Kimchi Canary Web3 hiring risk desk logo card" />
@@ -217,9 +220,9 @@ export function renderOgImage() {
       </linearGradient>
     </defs>
     <rect width="1200" height="630" fill="#f7f5ef" />
-    <rect width="1200" height="630" fill="url(#grid)" opacity="0.72" />
-    <rect x="64" y="58" width="1072" height="514" fill="#fffdf8" stroke="#101418" stroke-width="6" />
-    <g transform="translate(104 128) scale(1.06)">
+    <rect width="1200" height="630" fill="url(#grid)" opacity="0.6" />
+    <rect x="70" y="64" width="1060" height="502" fill="#fffdf8" stroke="#101418" stroke-width="6" />
+    <g transform="translate(98 150) scale(0.9)">
       <path d="M83 61h135l-12 48H95L83 61Z" fill="#101418" />
       <path d="M102 71h97l-7 24h-83l-7-24Z" fill="#f7f5ef" />
       <path d="M67 106c0-15 12-27 27-27h112c15 0 27 12 27 27v102c0 39-32 70-70 70h-26c-39 0-70-31-70-70V106Z" fill="url(#glassOg)" stroke="#101418" stroke-width="10" />
@@ -231,17 +234,44 @@ export function renderOgImage() {
       <circle cx="173" cy="135" r="7" fill="#101418" />
       <path d="M57 251h187" stroke="#101418" stroke-width="10" stroke-linecap="round" />
     </g>
-    <text x="430" y="186" fill="#7f1611" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="4">WEB3 HIRING RISK DESK</text>
-    <text x="430" y="308" fill="#101418" font-family="Georgia, 'Times New Roman', serif" font-size="100" font-weight="900">Kimchi Canary</text>
-    <text x="430" y="374" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">DPRK remote IT worker fraud screening</text>
-    <text x="430" y="426" fill="#5b6672" font-family="Inter, Arial, sans-serif" font-size="26">Official-source watchlist, HR questionnaire,</text>
-    <text x="430" y="464" fill="#5b6672" font-family="Inter, Arial, sans-serif" font-size="26">and private report moderation for Web3 teams.</text>
+    <text x="380" y="168" fill="#7f1611" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="4">WEB3 HIRING RISK DESK</text>
+    <text x="380" y="282" fill="#101418" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="900">Kimchi Canary</text>
+    <text x="380" y="354" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800">DPRK remote IT worker fraud screening</text>
+    <text x="380" y="414" fill="#5b6672" font-family="Inter, Arial, sans-serif" font-size="26">Official-source watchlist, HR questionnaire,</text>
+    <text x="380" y="452" fill="#5b6672" font-family="Inter, Arial, sans-serif" font-size="26">and private report moderation for Web3 teams.</text>
     <g font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">
-      <rect x="430" y="500" width="214" height="48" fill="#b3261e" stroke="#101418" stroke-width="4" />
-      <text x="455" y="532" fill="#fff">Evidence first</text>
-      <rect x="666" y="500" width="214" height="48" fill="#fffdf8" stroke="#101418" stroke-width="4" />
-      <text x="691" y="532" fill="#101418">Private reports</text>
+      <rect x="380" y="496" width="214" height="48" fill="#b3261e" stroke="#101418" stroke-width="4" />
+      <text x="405" y="528" fill="#fff">Evidence first</text>
+      <rect x="616" y="496" width="230" height="48" fill="#fffdf8" stroke="#101418" stroke-width="4" />
+      <text x="641" y="528" fill="#101418">Private reports</text>
     </g>
+  </svg>`;
+}
+
+export function renderFaviconImage() {
+  return html`<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Kimchi Canary favicon">
+    <defs>
+      <linearGradient id="faviconBg" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0" stop-color="#fffdf8" />
+        <stop offset="1" stop-color="#f0d8b6" />
+      </linearGradient>
+      <linearGradient id="faviconRed" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0" stop-color="#f15a24" />
+        <stop offset="1" stop-color="#b3261e" />
+      </linearGradient>
+    </defs>
+    <rect width="512" height="512" rx="96" fill="#101418" />
+    <rect x="36" y="36" width="440" height="440" rx="76" fill="url(#faviconBg)" />
+    <path d="M149 111h218l-18 71H167l-18-71Z" fill="#101418" />
+    <path d="M181 127h154l-9 35H190l-9-35Z" fill="#f7f5ef" />
+    <path d="M122 180c0-30 24-54 54-54h160c30 0 54 24 54 54v112c0 75-61 136-136 136s-136-61-136-136V180Z" fill="#fff7e8" stroke="#101418" stroke-width="22" />
+    <path d="M162 266c34-70 124-86 178-33 44 43 42 116-3 158-52 48-144 37-176-27-16-33-15-66 1-98Z" fill="url(#faviconRed)" stroke="#101418" stroke-width="18" />
+    <path d="M184 300c39-39 111-38 148 7" fill="none" stroke="#ffd36a" stroke-width="23" stroke-linecap="round" />
+    <path d="M184 352c44 30 102 28 141-8" fill="none" stroke="#7bdc83" stroke-width="23" stroke-linecap="round" />
+    <path d="M257 218c48 17 79 61 79 112 0 33-13 64-35 86 76-21 131-89 131-170 0-97-79-176-176-176v148Z" fill="#ffcc3d" stroke="#101418" stroke-width="18" />
+    <path d="M329 206l72-36-24 76" fill="#ffcc3d" stroke="#101418" stroke-width="18" stroke-linejoin="round" />
+    <circle cx="304" cy="227" r="16" fill="#101418" />
+    <path d="M103 421h304" stroke="#101418" stroke-width="24" stroke-linecap="round" />
   </svg>`;
 }
 

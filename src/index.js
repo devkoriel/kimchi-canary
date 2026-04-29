@@ -1,6 +1,8 @@
 import { PUBLIC_CASES } from "./cases.js";
+import { APPLE_TOUCH_ICON_PNG_BASE64, FAVICON_PNG_BASE64 } from "./favicon.generated.js";
 import { getStrings } from "./i18n.js";
-import { renderAdmin, renderAssessment, renderHome, renderOgImage } from "./render.js";
+import { OG_IMAGE_PNG_BASE64 } from "./og-image.generated.js";
+import { renderAdmin, renderAssessment, renderFaviconImage, renderHome, renderOgImage } from "./render.js";
 import { assessCandidate, SIGNALS } from "./scoring.js";
 
 const JSON_HEADERS = {
@@ -25,6 +27,26 @@ export default {
 
       if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/og.svg") {
         const response = svgResponse(renderOgImage());
+        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
+      }
+
+      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/og.png") {
+        const response = pngResponse(OG_IMAGE_PNG_BASE64);
+        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
+      }
+
+      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/favicon.svg") {
+        const response = svgResponse(renderFaviconImage());
+        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
+      }
+
+      if ((request.method === "GET" || request.method === "HEAD") && ["/favicon.ico", "/favicon.png"].includes(url.pathname)) {
+        const response = pngResponse(FAVICON_PNG_BASE64);
+        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
+      }
+
+      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/apple-touch-icon.png") {
+        const response = pngResponse(APPLE_TOUCH_ICON_PNG_BASE64);
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
@@ -335,6 +357,16 @@ function svgResponse(body) {
   });
 }
 
+function pngResponse(base64Body) {
+  return new Response(base64ToBytes(base64Body), {
+    headers: {
+      "content-type": "image/png",
+      "cache-control": "public, max-age=86400",
+      "x-content-type-options": "nosniff",
+    },
+  });
+}
+
 function textResponse(body) {
   return new Response(body, {
     headers: {
@@ -373,6 +405,15 @@ function renderSitemap(origin) {
   </url>
 </urlset>
 `;
+}
+
+function base64ToBytes(value) {
+  const binary = atob(value);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index);
+  }
+  return bytes;
 }
 
 class PublicError extends Error {

@@ -14,7 +14,8 @@ The site is intentionally conservative:
 The Worker serves:
 
 - `/` with canonical, Open Graph, Twitter card, hreflang, and JSON-LD metadata
-- `/og.svg` as the first-party share card
+- `/og.png` as the first-party share card, generated from `/og.svg`
+- `/favicon.ico`, `/favicon.svg`, `/favicon.png`, and `/apple-touch-icon.png`
 - `/robots.txt`
 - `/sitemap.xml`
 
@@ -22,6 +23,7 @@ The Worker serves:
 
 ```sh
 npm install
+npm run build:og
 npm test
 npm run dev
 ```
@@ -58,3 +60,13 @@ npm run deploy
 ```
 
 The production domain is `kimchicanary.xyz`. Add the domain to Cloudflare DNS if it is not already in the authenticated Cloudflare account, then deploy the Worker route from `wrangler.jsonc`.
+
+## GitHub Deployment
+
+Pushes to `main` deploy through `.github/workflows/deploy.yml`. Add this GitHub Actions secret before relying on automatic deploys:
+
+```text
+CLOUDFLARE_API_TOKEN
+```
+
+The token needs permission to deploy Workers and read/update the D1 binding in the Cloudflare account.

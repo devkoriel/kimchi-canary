@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "kimchi-canary",
+  "account_id": "0d44347d4e8a96b746966c7fd2554625",
   "main": "src/index.js",
   "compatibility_date": "2026-04-29",
   "workers_dev": true,

@@ -114,6 +114,14 @@ export const SIGNALS = [
     actions: ["structuredInterview", "verifyDocuments"],
   },
   {
+    id: "livenessChallengeFailed",
+    category: "interview",
+    weight: 16,
+    label: "Candidate cannot complete a neutral live liveness challenge, such as reading a random phrase and explaining a work sample on camera.",
+    evidence: "Record the neutral challenge text, time, verification method, and observed failure without testing political beliefs.",
+    actions: ["structuredInterview", "verifyDocuments"],
+  },
+  {
     id: "offPlatformPressure",
     category: "interview",
     weight: 8,
