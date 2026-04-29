@@ -7,6 +7,7 @@ The site is intentionally conservative:
 - public cases are limited to official public sources such as FBI, DOJ, OFAC, or equivalent authorities
 - private reports enter a moderation queue and are not published automatically
 - the questionnaire scores observed facts and recommends next steps; it does not accuse a person
+- South Korea-specific interview prompts are claim-specific consistency checks only; use them only when the candidate claims South Korea location, education, employment, or work authorization
 - nationality-only screening, political loyalty tests, and humiliation prompts are explicitly excluded
 
 ## SEO Surface

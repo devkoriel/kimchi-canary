@@ -1,10 +1,39 @@
 export const SIGNAL_CATEGORIES = [
-  { id: "identity", label: "Identity and documents" },
-  { id: "location", label: "Location, device, and access path" },
-  { id: "payment", label: "Payment and payroll" },
-  { id: "interview", label: "Interview and account behavior" },
-  { id: "access", label: "Post-hire security behavior" },
-  { id: "vendor", label: "Vendor and staffing controls" },
+  { id: "identity", label: "Identity and documents", description: "Facts that should reconcile across independent records." },
+  { id: "location", label: "Location, device, and access path", description: "Where the person, laptop, and network path actually appear to be." },
+  { id: "payment", label: "Payment and payroll", description: "Payroll, wallet, and payout behavior that should match verified identity." },
+  { id: "interview", label: "Interview and account behavior", description: "Live-interview consistency, liveness, and account-control signals." },
+  { id: "access", label: "Post-hire security behavior", description: "Signals that may mean the environment is already exposed." },
+  { id: "vendor", label: "Vendor and staffing controls", description: "Third-party controls for staffing, subcontracting, and sanctions checks." },
+];
+
+export const INTERVIEW_PROMPTS = [
+  {
+    title: "If the person claims South Korea location, school, or work history",
+    prompts: [
+      "Ask them to walk through their claimed current work setup in practical terms: workspace, normal work hours, network/phone carrier, payroll/KYC route, and how equipment can be delivered to the verified address.",
+      "Ask for consent to verify the claimed Korean school or employer through independently sourced contacts, not through contacts supplied only by the candidate.",
+      "Ask one neutral follow-up tied to their own claim, such as a nearby transit stop, office district, public service, or institution process. Treat this as a consistency check, not a nationality test.",
+    ],
+  },
+  {
+    title: "Live-video consistency checks",
+    prompts: [
+      "Keep the camera on with an unobscured background when policy allows, then ask the person to explain a recent work sample without screen-reading or long pauses.",
+      "Ask the person to briefly show a live timestamp source or surroundings that match the claimed location, without collecting unnecessary private details.",
+      "Compare the same person across official ID, interview, onboarding, and later meetings when company policy allows. Do not score fashion, grooming, attractiveness, ethnicity, or whether someone 'looks' like a nationality.",
+      "Repeat one harmless factual question later in the process and compare the answer with the earlier record.",
+    ],
+  },
+  {
+    title: "Psychology-aware fraud probes",
+    prompts: [
+      "Prefer open-ended memory questions over yes/no questions: real candidates usually answer with specific, messy details; coached answers often stay generic.",
+      "If accent, wording, or technical vocabulary seems inconsistent with claimed education or work history, ask neutral follow-ups about the claim. Do not score accent alone.",
+      "Do not accuse during the interview. Ask for documentation, pause access, and compare claims across HR, device, payment, and source-control records.",
+      "Use the same structured prompts for similarly situated candidates so the process stays fair, repeatable, and legally defensible.",
+    ],
+  },
 ];
 
 export const SIGNALS = [
@@ -42,6 +71,14 @@ export const SIGNALS = [
     actions: ["crossCheckApplicants", "verifyDocuments"],
   },
   {
+    id: "claimedKoreaVerificationGap",
+    category: "identity",
+    weight: 14,
+    label: "Candidate claims South Korea education, employment, residence, or work authorization but cannot support direct independent verification.",
+    evidence: "Record the claim, requested verification method, consent status, and independently sourced institution or employer contacts.",
+    actions: ["verifyDocuments", "structuredInterview"],
+  },
+  {
     id: "alternateShippingAddress",
     category: "location",
     weight: 24,
@@ -76,10 +113,18 @@ export const SIGNALS = [
   {
     id: "locationStoryWeak",
     category: "location",
-    weight: 10,
-    label: "Candidate cannot answer basic, non-sensitive questions about claimed current location or local work setup.",
-    evidence: "Record the structured questions asked and the answers given.",
+    weight: 12,
+    label: "Candidate cannot answer neutral, claim-specific questions about claimed current location, school, employer, or local work setup.",
+    evidence: "Record the stated claim, neutral questions asked, answers given, and why the answers conflict with the claim.",
     actions: ["structuredInterview"],
+  },
+  {
+    id: "localeProfileMismatch",
+    category: "location",
+    weight: 10,
+    label: "Profile locale, device language, timezone, stated location, or working hours conflict without a credible explanation.",
+    evidence: "Preserve profile settings, interview notes, timezone data, and authentication metadata under company policy.",
+    actions: ["structuredInterview", "verifyDocuments"],
   },
   {
     id: "cryptoPaymentRequest",
@@ -109,9 +154,17 @@ export const SIGNALS = [
     id: "faceSwapOrProxyInterview",
     category: "interview",
     weight: 22,
-    label: "Interview shows signs of face-swapping, AI video, hidden assistance, or a different person after onboarding.",
+    label: "Interview shows signs of face-swapping, AI video, hidden assistance, or a different person controlling the session.",
     evidence: "Keep approved interview artifacts under company policy and compare future meetings.",
     actions: ["structuredInterview", "verifyDocuments"],
+  },
+  {
+    id: "personMismatchAcrossArtifacts",
+    category: "interview",
+    weight: 20,
+    label: "The person appears materially different across official ID, live interview, onboarding, or later meetings.",
+    evidence: "Compare only policy-approved identity artifacts and meeting captures. Do not score fashion, grooming, ethnicity, attractiveness, or whether someone looks like a nationality.",
+    actions: ["structuredInterview", "verifyDocuments", "pauseAccess"],
   },
   {
     id: "livenessChallengeFailed",
@@ -119,6 +172,30 @@ export const SIGNALS = [
     weight: 16,
     label: "Candidate cannot complete a neutral live liveness challenge, such as reading a random phrase and explaining a work sample on camera.",
     evidence: "Record the neutral challenge text, time, verification method, and observed failure without testing political beliefs.",
+    actions: ["structuredInterview", "verifyDocuments"],
+  },
+  {
+    id: "scriptedSoftQuestionFailure",
+    category: "interview",
+    weight: 12,
+    label: "Candidate gives generic, scripted, or inconsistent answers to open-ended questions about their own resume, project history, or claimed location.",
+    evidence: "Keep the structured interview notes, timestamps, repeated question set, and inconsistent answers.",
+    actions: ["structuredInterview", "verifyDocuments"],
+  },
+  {
+    id: "cameraLocationMismatch",
+    category: "interview",
+    weight: 16,
+    label: "Live-video, background, timestamp, or location check does not match the candidate's claimed current location or onboarding address.",
+    evidence: "Preserve only policy-approved interview artifacts and compare them with verified address and onboarding records.",
+    actions: ["structuredInterview", "verifyDocuments", "pauseAccess"],
+  },
+  {
+    id: "languageHistoryMismatch",
+    category: "interview",
+    weight: 8,
+    label: "Accent, writing style, terminology, or live technical explanation is inconsistent with claimed education, work history, or language background.",
+    evidence: "Do not score accent alone. Record the claim, neutral follow-up questions, answers, and any verified education or employment records that conflict.",
     actions: ["structuredInterview", "verifyDocuments"],
   },
   {
@@ -185,7 +262,7 @@ export const SIGNALS = [
 const ACTION_LIBRARY = {
   pauseAccess: "Pause onboarding or privileged access until identity, device path, and payment facts are reconciled.",
   verifyDocuments: "Verify identity, employment, and education directly with issuing institutions using independently sourced contacts.",
-  structuredInterview: "Run a structured live interview with camera on, unobscured background, and consistent identity checks.",
+  structuredInterview: "Run a structured live interview with neutral, claim-specific prompts; avoid nationality quizzes, political loyalty tests, or humiliation prompts.",
   crossCheckApplicants: "Search HR systems for reused resumes, contacts, profile photos, payout accounts, and portfolio domains.",
   shipOnlyVerified: "Ship equipment only to the verified identity address and do not grant system access before checks finish.",
   payrollReview: "Escalate payment anomalies to payroll, finance, legal, and sanctions compliance.",

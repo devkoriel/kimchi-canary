@@ -1,6 +1,6 @@
 import { EXTRA_SOURCE_LINKS, OFFICIAL_SOURCES, PUBLIC_CASES } from "./cases.js";
 import { LANGUAGES, getStrings } from "./i18n.js";
-import { assessCandidate, SIGNAL_CATEGORIES, SIGNALS } from "./scoring.js";
+import { assessCandidate, INTERVIEW_PROMPTS, SIGNAL_CATEGORIES, SIGNALS } from "./scoring.js";
 
 const SOURCE_BY_ID = new Map([
   ...OFFICIAL_SOURCES.map((source) => [source.id, source]),
@@ -132,6 +132,7 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
             <form class="questionnaire" id="questionnaire">
               ${SIGNAL_CATEGORIES.map((category) => renderCategory(category)).join("")}
             </form>
+            ${renderInterviewPrompts()}
           </section>
 
           <section class="workflow">
@@ -329,7 +330,10 @@ export function renderAssessment(assessment, t = getStrings("en")) {
 function renderCategory(category) {
   const signals = SIGNALS.filter((signal) => signal.category === category.id);
   return html`<fieldset>
-    <legend>${escapeHtml(category.label)}</legend>
+    <legend>
+      <span>${escapeHtml(category.label)}</span>
+      ${category.description ? html`<small>${escapeHtml(category.description)}</small>` : ""}
+    </legend>
     ${signals
       .map(
         (signal) => html`<label class="signal">
@@ -342,6 +346,24 @@ function renderCategory(category) {
       )
       .join("")}
   </fieldset>`;
+}
+
+function renderInterviewPrompts() {
+  return html`<section class="prompt-bank" aria-label="Soft interview prompts">
+    <div class="prompt-head">
+      <p class="eyebrow">Soft interview prompts</p>
+      <h3>Use these only when they are tied to the candidate's own claims.</h3>
+      <p>These prompts test consistency, liveness, and verifiable work history. They are not nationality tests.</p>
+    </div>
+    <div class="prompt-grid">
+      ${INTERVIEW_PROMPTS.map(
+        (group) => html`<article>
+          <h4>${escapeHtml(group.title)}</h4>
+          <ul>${group.prompts.map((prompt) => html`<li>${escapeHtml(prompt)}</li>`).join("")}</ul>
+        </article>`,
+      ).join("")}
+    </div>
+  </section>`;
 }
 
 function renderReportForm(t) {
@@ -804,11 +826,19 @@ function styles() {
       background: rgba(255, 253, 248, 0.84);
     }
     legend {
+      display: grid;
+      gap: 4px;
       padding: 12px 14px;
       width: 100%;
       border-bottom: 1px solid var(--line);
       background: rgba(16, 20, 24, 0.04);
       font-weight: 900;
+    }
+    legend small {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.4;
     }
     .signal {
       display: grid;
@@ -892,6 +922,47 @@ function styles() {
       padding-left: 18px;
       color: var(--muted);
       line-height: 1.5;
+    }
+    .prompt-bank {
+      border: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.84);
+      padding: 18px;
+    }
+    .prompt-head {
+      max-width: 900px;
+      margin-bottom: 14px;
+    }
+    .prompt-head h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .prompt-head p:last-child {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .prompt-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .prompt-grid article {
+      border: 1px solid rgba(16, 20, 24, 0.1);
+      background: #fff;
+      padding: 16px;
+    }
+    .prompt-grid h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.25;
+    }
+    .prompt-grid ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.45;
     }
     .steps, .trust-grid {
       display: grid;
@@ -1037,7 +1108,7 @@ function styles() {
     @media (max-width: 980px) {
       .topbar { align-items: stretch; flex-direction: column; }
       nav { justify-content: flex-start; }
-      .steps, .trust-grid, .result-columns { grid-template-columns: 1fr; }
+      .steps, .trust-grid, .result-columns, .prompt-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 640px) {
       .topbar {
