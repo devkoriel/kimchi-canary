@@ -4,6 +4,12 @@
   "main": "src/index.js",
   "compatibility_date": "2026-04-29",
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "kimchicanary.xyz",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true
   },
@@ -11,7 +17,7 @@
     {
       "binding": "DB",
       "database_name": "kimchi-canary-db",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID"
+      "database_id": "a467ee54-1b3d-4586-83f7-24b87bd4aa34"
     }
   ]
 }

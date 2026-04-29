@@ -57,10 +57,4 @@ Public watchlist entries in `src/cases.js` should stay limited to official or eq
 npm run deploy
 ```
 
-Use `kimchicanary.com` as the preferred domain if available. After registering it, add a Workers route or custom domain in Cloudflare.
-
-Good fallback domains:
-
-- `kimchicanary.org`
-- `kimchicanary.io`
-- `kimchicanary.xyz`
+The production domain is `kimchicanary.xyz`. Add the domain to Cloudflare DNS if it is not already in the authenticated Cloudflare account, then deploy the Worker route from `wrangler.jsonc`.

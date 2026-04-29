@@ -8,15 +8,18 @@ const JSON_HEADERS = {
   "cache-control": "no-store",
 };
 
+const PRODUCTION_ORIGIN = "https://kimchicanary.xyz";
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const publicOrigin = isLocalHost(url.hostname) ? url.origin : PRODUCTION_ORIGIN;
 
     try {
       if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/") {
         const language = normalizeLanguage(url.searchParams.get("lang") || request.headers.get("accept-language"));
         const approvedReports = await listApprovedReports(env);
-        const response = htmlResponse(renderHome({ language, reportsEnabled: Boolean(env.DB), approvedReports, origin: url.origin }));
+        const response = htmlResponse(renderHome({ language, reportsEnabled: Boolean(env.DB), approvedReports, origin: publicOrigin }));
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
@@ -26,11 +29,11 @@ export default {
       }
 
       if (request.method === "GET" && url.pathname === "/robots.txt") {
-        return textResponse(renderRobots(url.origin));
+        return textResponse(renderRobots(publicOrigin));
       }
 
       if (request.method === "GET" && url.pathname === "/sitemap.xml") {
-        return xmlResponse(renderSitemap(url.origin));
+        return xmlResponse(renderSitemap(publicOrigin));
       }
 
       if (request.method === "GET" && url.pathname === "/api/cases") {
@@ -274,6 +277,10 @@ function isAuthorized(request, expectedToken) {
   const authHeader = request.headers.get("authorization") || "";
   const bearer = authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : "";
   return timingSafeEqual(queryToken || bearer, expectedToken);
+}
+
+function isLocalHost(hostname) {
+  return ["localhost", "127.0.0.1", "0.0.0.0"].includes(hostname);
 }
 
 function acceptsHtml(request) {
