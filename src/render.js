@@ -265,28 +265,31 @@ function renderFraudBonk(t = getStrings("en")) {
           </filter>
         </defs>
         <g class="fake-stack" filter="url(#bonkShadow)">
-          <rect x="292" y="62" width="226" height="128" rx="8" fill="#fffdf8" stroke="#101418" stroke-width="5" />
-          <rect x="316" y="86" width="96" height="13" fill="#101418" />
-          <rect x="316" y="112" width="164" height="10" fill="#d7d2c4" />
-          <rect x="316" y="134" width="126" height="10" fill="#d7d2c4" />
-          <rect x="316" y="156" width="150" height="10" fill="#d7d2c4" />
-          <text x="316" y="184" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FAKE RESUME</text>
+          <rect x="386" y="66" width="238" height="128" rx="8" fill="#fffdf8" stroke="#101418" stroke-width="5" />
+          <rect x="412" y="91" width="102" height="13" fill="#101418" />
+          <rect x="412" y="118" width="172" height="10" fill="#d7d2c4" />
+          <rect x="412" y="141" width="132" height="10" fill="#d7d2c4" />
+          <rect x="412" y="164" width="156" height="10" fill="#d7d2c4" />
+          <text x="412" y="187" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FAKE RESUME</text>
         </g>
         <g class="proxy-laptop">
-          <rect x="620" y="110" width="132" height="78" rx="8" fill="#101418" />
-          <rect x="637" y="126" width="98" height="44" fill="#f7f5ef" />
-          <path d="M598 198h180l-20 22H618z" fill="#101418" />
-          <text x="654" y="154" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900">PROXY</text>
+          <rect x="690" y="112" width="132" height="78" rx="8" fill="#101418" />
+          <rect x="707" y="128" width="98" height="44" fill="#f7f5ef" />
+          <path d="M668 200h180l-20 22H688z" fill="#101418" />
+          <text x="724" y="156" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900">PROXY</text>
         </g>
         <g class="bonk-glove" filter="url(#bonkShadow)">
-          <path d="M94 116c0-23 19-42 42-42h46c20 0 36 16 36 36v16h38c19 0 34 15 34 34 0 28-22 50-50 50H136c-23 0-42-19-42-42v-52Z" fill="#b3261e" stroke="#101418" stroke-width="7" />
-          <path d="M132 76v-8c0-20 16-36 36-36s36 16 36 36v10" fill="#fffdf8" stroke="#101418" stroke-width="7" />
-          <path d="M204 78v-6c0-19 16-35 35-35s35 16 35 35v58" fill="#fffdf8" stroke="#101418" stroke-width="7" />
-          <path d="M290 152h136" stroke="#101418" stroke-width="12" stroke-linecap="round" />
+          <path d="M58 154h86" stroke="#101418" stroke-width="26" stroke-linecap="round" />
+          <path d="M110 123h62v66h-62c-18 0-32-15-32-33v-1c0-18 14-32 32-32Z" fill="#fffdf8" stroke="#101418" stroke-width="7" />
+          <path d="M154 151c-12-49 23-82 73-73 12-22 47-24 68-3 13 13 18 30 15 47 37 3 63 29 61 63-3 44-41 70-92 66l-101 8c-40 3-72-27-74-67-1-22 15-39 50-41Z" fill="#c3201e" stroke="#101418" stroke-width="8" />
+          <path d="M250 199c33-8 63-4 80 13-15 24-51 34-87 20-14-6-13-28 7-33Z" fill="#9f1715" stroke="#101418" stroke-width="7" />
+          <path d="M174 130c34-16 84-16 126 1" fill="none" stroke="#e85a49" stroke-width="10" stroke-linecap="round" opacity="0.75" />
+          <path d="M122 136h42" stroke="#d7d2c4" stroke-width="7" stroke-linecap="round" />
+          <path d="M122 158h42" stroke="#d7d2c4" stroke-width="7" stroke-linecap="round" />
         </g>
         <g class="bonk-burst">
-          <path d="M552 36l20 39 43-14-26 36 35 28-45 2-9 43-21-39-43 14 26-36-35-28 45-2z" fill="#ffd36a" stroke="#101418" stroke-width="5" />
-          <text x="532" y="112" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="950">BONK</text>
+          <path d="M382 48l20 38 42-13-26 35 35 27-44 3-10 42-20-38-42 13 26-35-35-27 44-3z" fill="#ffd36a" stroke="#101418" stroke-width="5" />
+          <text x="362" y="122" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="950">BONK</text>
         </g>
       </svg>
     </div>
@@ -803,21 +806,21 @@ function styles() {
       height: auto;
     }
     .bonk-glove {
-      transform-origin: 330px 148px;
-      animation: bonkGlove 2.4s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+      transform-origin: 250px 170px;
+      animation: bonkGlove 2.8s cubic-bezier(0.5, 0, 0.2, 1) infinite;
     }
     .fake-stack {
-      transform-origin: 320px 130px;
-      animation: fakeWobble 2.4s ease-in-out infinite;
+      transform-origin: 504px 130px;
+      animation: fakeWobble 2.8s ease-in-out infinite;
     }
     .proxy-laptop {
-      transform-origin: 486px 170px;
-      animation: proxyWobble 2.4s ease-in-out infinite;
+      transform-origin: 756px 170px;
+      animation: proxyWobble 2.8s ease-in-out infinite;
     }
     .bonk-burst {
       opacity: 0;
-      transform-origin: 430px 100px;
-      animation: bonkBurst 2.4s ease-in-out infinite;
+      transform-origin: 392px 112px;
+      animation: bonkBurst 2.8s ease-in-out infinite;
     }
     .bonk-copy {
       display: flex;
@@ -862,19 +865,19 @@ function styles() {
     .button.secondary { background: var(--panel); color: var(--ink); }
     .button.danger { background: #2b1111; color: white; }
     @keyframes bonkGlove {
-      0%, 48%, 100% { transform: translateX(-28px) rotate(-5deg); }
-      58% { transform: translateX(92px) rotate(2deg); }
-      68% { transform: translateX(42px) rotate(-9deg); }
+      0%, 48%, 100% { transform: translateX(-42px) rotate(-3deg); }
+      58% { transform: translateX(92px) rotate(0deg); }
+      68% { transform: translateX(46px) rotate(-5deg); }
     }
     @keyframes fakeWobble {
       0%, 52%, 100% { transform: rotate(0deg) translate(0, 0); }
-      58% { transform: rotate(5deg) translate(12px, 2px); }
-      66% { transform: rotate(-3deg) translate(-6px, 0); }
+      58% { transform: rotate(2deg) translate(9px, 1px); }
+      66% { transform: rotate(-1.5deg) translate(-4px, 0); }
     }
     @keyframes proxyWobble {
       0%, 54%, 100% { transform: translate(0, 0); }
-      60% { transform: translate(14px, 4px) rotate(3deg); }
-      70% { transform: translate(-5px, 0) rotate(-2deg); }
+      60% { transform: translate(5px, 2px) rotate(1deg); }
+      70% { transform: translate(-3px, 0) rotate(-1deg); }
     }
     @keyframes bonkBurst {
       0%, 54%, 100% { opacity: 0; transform: scale(0.7) rotate(-8deg); }
