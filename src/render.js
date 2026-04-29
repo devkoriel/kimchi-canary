@@ -258,35 +258,35 @@ export function renderFaviconImage() {
 function renderFraudBonk(t = getStrings("en")) {
   return html`<div class="fraud-bonk" aria-label="${escapeAttribute(t.bonkAria || "Cartoon fraud-screening animation")}">
     <div class="bonk-stage">
-      <svg viewBox="0 0 720 260" role="img" aria-label="Cartoon glove bonks a fake resume and proxy laptop">
+      <svg viewBox="0 0 900 260" role="img" aria-label="Cartoon glove bonks a fake resume and proxy laptop">
         <defs>
           <filter id="bonkShadow" x="-20%" y="-20%" width="140%" height="150%">
             <feDropShadow dx="8" dy="10" stdDeviation="0" flood-color="#101418" flood-opacity="0.18" />
           </filter>
         </defs>
         <g class="fake-stack" filter="url(#bonkShadow)">
-          <rect x="230" y="58" width="184" height="132" rx="8" fill="#fffdf8" stroke="#101418" stroke-width="5" />
-          <rect x="252" y="82" width="86" height="13" fill="#101418" />
-          <rect x="252" y="110" width="134" height="10" fill="#d7d2c4" />
-          <rect x="252" y="132" width="104" height="10" fill="#d7d2c4" />
-          <rect x="252" y="154" width="126" height="10" fill="#d7d2c4" />
-          <text x="252" y="184" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FAKE RESUME</text>
+          <rect x="292" y="62" width="226" height="128" rx="8" fill="#fffdf8" stroke="#101418" stroke-width="5" />
+          <rect x="316" y="86" width="96" height="13" fill="#101418" />
+          <rect x="316" y="112" width="164" height="10" fill="#d7d2c4" />
+          <rect x="316" y="134" width="126" height="10" fill="#d7d2c4" />
+          <rect x="316" y="156" width="150" height="10" fill="#d7d2c4" />
+          <text x="316" y="184" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="900">FAKE RESUME</text>
         </g>
         <g class="proxy-laptop">
-          <rect x="430" y="106" width="112" height="74" rx="8" fill="#101418" />
-          <rect x="444" y="120" width="84" height="42" fill="#f7f5ef" />
-          <path d="M414 190h146l-16 20H430z" fill="#101418" />
-          <text x="448" y="148" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="900">PROXY</text>
+          <rect x="620" y="110" width="132" height="78" rx="8" fill="#101418" />
+          <rect x="637" y="126" width="98" height="44" fill="#f7f5ef" />
+          <path d="M598 198h180l-20 22H618z" fill="#101418" />
+          <text x="654" y="154" fill="#b3261e" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900">PROXY</text>
         </g>
         <g class="bonk-glove" filter="url(#bonkShadow)">
-          <path d="M115 112c0-23 19-42 42-42h42c19 0 35 15 35 34v18h36c19 0 34 15 34 34 0 26-21 47-47 47H157c-23 0-42-19-42-42v-49Z" fill="#b3261e" stroke="#101418" stroke-width="7" />
-          <path d="M151 73v-7c0-19 15-34 34-34s34 15 34 34v10" fill="#fffdf8" stroke="#101418" stroke-width="7" />
-          <path d="M219 78v-5c0-18 15-33 33-33s33 15 33 33v54" fill="#fffdf8" stroke="#101418" stroke-width="7" />
-          <path d="M304 148h82" stroke="#101418" stroke-width="12" stroke-linecap="round" />
+          <path d="M94 116c0-23 19-42 42-42h46c20 0 36 16 36 36v16h38c19 0 34 15 34 34 0 28-22 50-50 50H136c-23 0-42-19-42-42v-52Z" fill="#b3261e" stroke="#101418" stroke-width="7" />
+          <path d="M132 76v-8c0-20 16-36 36-36s36 16 36 36v10" fill="#fffdf8" stroke="#101418" stroke-width="7" />
+          <path d="M204 78v-6c0-19 16-35 35-35s35 16 35 35v58" fill="#fffdf8" stroke="#101418" stroke-width="7" />
+          <path d="M290 152h136" stroke="#101418" stroke-width="12" stroke-linecap="round" />
         </g>
         <g class="bonk-burst">
-          <path d="M421 45l18 34 37-12-22 31 30 24-38 2-8 37-18-34-37 12 22-31-30-24 38-2z" fill="#ffd36a" stroke="#101418" stroke-width="5" />
-          <text x="406" y="116" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="950">BONK</text>
+          <path d="M552 36l20 39 43-14-26 36 35 28-45 2-9 43-21-39-43 14 26-36-35-28 45-2z" fill="#ffd36a" stroke="#101418" stroke-width="5" />
+          <text x="532" y="112" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="950">BONK</text>
         </g>
       </svg>
     </div>
@@ -341,7 +341,7 @@ export function renderAssessment(assessment, t = getStrings("en")) {
     <div class="result-columns">
       <div class="result-group">
         <h3>${escapeHtml(t.actions)}</h3>
-        <ul>${assessment.actions.map((action) => html`<li>${escapeHtml(t.actionLabels?.[action.id] || action.label)}</li>`).join("")}</ul>
+        <ul>${assessment.actions.map((action) => html`<li>${escapeHtml(t.actionLabels?.[action.id] || t.actionFallback || action.label)}</li>`).join("")}</ul>
       </div>
       <div class="result-group">
         <h3>${escapeHtml(t.evidence)}</h3>
@@ -364,7 +364,7 @@ function renderCategory(category, t = getStrings("en")) {
         (signal) => html`<label class="signal">
           <input type="checkbox" name="signal" value="${escapeHtml(signal.id)}" />
           <span>
-            <strong>${escapeHtml(t.signalLabels?.[signal.id] || signal.label)}</strong>
+            <strong>${escapeHtml(t.signalLabels?.[signal.id] || t.signalFallback || signal.label)}</strong>
             <small>${escapeHtml(t.weightLabel || "Weight")} ${escapeHtml(String(signal.weight))}${signal.critical ? ` / ${escapeHtml(t.criticalLabel || "critical")}` : ""}</small>
           </span>
         </label>`,
@@ -399,7 +399,7 @@ function localizeEvidenceItems(assessment, t) {
 
   return assessment.selectedSignals.map((signal) => {
     if (t.signalEvidence?.[signal.id]) return t.signalEvidence[signal.id];
-    const label = t.signalLabels?.[signal.id] || signal.label;
+    const label = t.signalLabels?.[signal.id] || t.signalFallback || signal.label;
     return t.evidenceTemplate ? t.evidenceTemplate.replace("{signal}", label) : signal.evidence;
   });
 }
@@ -927,7 +927,7 @@ function styles() {
       grid-template-areas:
         "head head"
         "questions result"
-        "prompts prompts";
+        "prompts result";
       align-items: start;
       gap: 20px;
     }
@@ -989,6 +989,8 @@ function styles() {
       top: 96px;
       align-self: start;
       z-index: 8;
+      max-height: calc(100vh - 120px);
+      overflow: auto;
       padding: 20px;
       border: 2px solid var(--ink);
       background: var(--panel);
@@ -1097,7 +1099,7 @@ function styles() {
     }
     .prompt-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
     }
     .prompt-grid article {
@@ -1272,6 +1274,8 @@ function styles() {
       }
       .result-panel {
         position: static;
+        max-height: none;
+        overflow: visible;
       }
       .steps, .trust-grid, .result-columns, .prompt-grid { grid-template-columns: 1fr; }
     }
