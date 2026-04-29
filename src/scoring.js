@@ -84,9 +84,9 @@ export const SIGNALS = [
   {
     id: "cryptoPaymentRequest",
     category: "payment",
-    weight: 20,
-    label: "Candidate or vendor requests salary, contractor payment, or milestone payment in cryptocurrency.",
-    evidence: "Keep payment instructions and compare them with onboarding records.",
+    weight: 8,
+    label: "Candidate or vendor requests crypto payment outside approved payroll/KYC rails, before identity verification, or to a wallet inconsistent with verified identity.",
+    evidence: "Do not treat normal USDC or crypto payroll as suspicious by itself. Preserve wallet ownership, KYC exceptions, payout changes, and identity mismatches.",
     actions: ["payrollReview", "sanctionsReview"],
   },
   {

@@ -16,9 +16,16 @@ test("escalates multiple hiring inconsistencies to high risk", () => {
   });
 
   assert.equal(result.level, "high");
-  assert.equal(result.score, 64);
+  assert.equal(result.score, 52);
   assert.ok(result.actions.some((action) => action.id === "pauseAccess"));
   assert.ok(result.actions.some((action) => action.id === "sanctionsReview"));
+});
+
+test("does not treat crypto payroll context as a strong signal alone", () => {
+  const result = assessCandidate(["cryptoPaymentRequest"]);
+
+  assert.equal(result.level, "low");
+  assert.equal(result.score, 8);
 });
 
 test("critical indicators override score thresholds", () => {
