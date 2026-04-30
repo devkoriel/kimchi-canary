@@ -1,7 +1,16 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { LANGUAGES, getStrings } from "../src/i18n.js";
-import { renderCaseDetail, renderHiringKit, renderHome, renderMethodology } from "../src/render.js";
+import {
+  renderAdmin,
+  renderAssessmentPage,
+  renderCaseDetail,
+  renderHiringKit,
+  renderHome,
+  renderMethodology,
+  renderReportPage,
+  renderWatchlistPage,
+} from "../src/render.js";
 import { PUBLIC_CASES } from "../src/cases.js";
 
 test("exposes the broad language set with operational translations", () => {
@@ -55,20 +64,72 @@ test("adds operational trust surfaces and searchable watchlist", () => {
 
   assert.match(html, /href="\/methodology"/);
   assert.match(html, /href="\/kit"/);
+  assert.match(html, /href="\/assessment"/);
+  assert.match(html, /href="\/watchlist"/);
+  assert.match(html, /href="\/report"/);
   assert.match(html, /id="case-search"/);
   assert.match(html, /data-case-card/);
-  assert.match(html, /Case detail/);
+  assert.match(html, /View dossier/);
 });
 
-test("renders methodology, printable kit, and case detail pages", () => {
+test("renders methodology, printable kit, assessment, watchlist, report, and case detail pages", () => {
   const methodology = renderMethodology({ origin: "https://kimchicanary.xyz" });
   const kit = renderHiringKit({ origin: "https://kimchicanary.xyz" });
+  const assessment = renderAssessmentPage({ origin: "https://kimchicanary.xyz" });
+  const watchlist = renderWatchlistPage({ origin: "https://kimchicanary.xyz" });
+  const report = renderReportPage({ origin: "https://kimchicanary.xyz" });
   const detail = renderCaseDetail({ caseItem: PUBLIC_CASES[0], origin: "https://kimchicanary.xyz" });
 
   assert.match(methodology, /Evidence first\. No nationality shortcuts\./);
   assert.match(methodology, /Corrections and removals/);
   assert.match(kit, /Printable hiring kit/);
   assert.match(kit, /USDC or crypto payroll is normal in Web3/);
+  assert.match(assessment, /Active Assessment Protocol/);
+  assert.match(assessment, /Screen observed fraud indicators before access increases\./);
+  assert.match(watchlist, /Official source watchlist/);
+  assert.match(report, /Private by default\. Published only after review\./);
   assert.match(detail, /Listed people\/entities/);
   assert.match(detail, /Official case page/);
+});
+
+test("renders complete public SEO metadata", () => {
+  const home = renderHome({ language: "ko", origin: "https://kimchicanary.xyz" });
+  const methodology = renderMethodology({ origin: "https://kimchicanary.xyz" });
+  const kit = renderHiringKit({ origin: "https://kimchicanary.xyz" });
+  const detail = renderCaseDetail({ caseItem: PUBLIC_CASES[0], origin: "https://kimchicanary.xyz" });
+
+  assert.match(home, /rel="canonical" href="https:\/\/kimchicanary\.xyz\/\?lang=ko"/);
+  assert.match(home, /hreflang="en" href="https:\/\/kimchicanary\.xyz\/"/);
+  assert.match(home, /twitter:image:alt/);
+  assert.match(home, /"@graph"/);
+  assert.match(home, /"WebApplication"/);
+
+  for (const html of [methodology, kit, detail]) {
+    assert.match(html, /meta name="robots" content="index,follow,max-image-preview:large"/);
+    assert.match(html, /meta property="og:site_name" content="Kimchi Canary"/);
+    assert.match(html, /meta name="twitter:card" content="summary_large_image"/);
+    assert.match(html, /"BreadcrumbList"/);
+    assert.match(html, /"Article"/);
+  }
+
+  assert.match(detail, /meta property="article:published_time" content="2025-06-24"/);
+});
+
+test("renders favicon links on every html page", () => {
+  const pages = [
+    renderHome({ origin: "https://kimchicanary.xyz" }),
+    renderAssessmentPage({ origin: "https://kimchicanary.xyz" }),
+    renderWatchlistPage({ origin: "https://kimchicanary.xyz" }),
+    renderReportPage({ origin: "https://kimchicanary.xyz" }),
+    renderMethodology({ origin: "https://kimchicanary.xyz" }),
+    renderHiringKit({ origin: "https://kimchicanary.xyz" }),
+    renderCaseDetail({ caseItem: PUBLIC_CASES[0], origin: "https://kimchicanary.xyz" }),
+    renderAdmin(),
+  ];
+
+  for (const html of pages) {
+    assert.match(html, /rel="icon" href="\/favicon\.ico"/);
+    assert.match(html, /rel="icon" href="\/favicon\.svg"/);
+    assert.match(html, /rel="apple-touch-icon" href="\/apple-touch-icon\.png"/);
+  }
 });

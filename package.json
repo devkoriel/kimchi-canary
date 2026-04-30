@@ -5,16 +5,22 @@
   "type": "module",
   "description": "Web3 HR risk triage for DPRK remote IT worker fraud indicators.",
   "scripts": {
+    "build:three": "node scripts/build-three-module.js",
     "build:og": "node scripts/build-og-image.js",
     "dev": "wrangler dev",
-    "deploy": "npm run build:og && wrangler deploy",
+    "deploy": "npm run build:three && npm run build:og && wrangler deploy",
     "db:create": "wrangler d1 create kimchi-canary-db",
     "db:migrate:local": "wrangler d1 migrations apply kimchi-canary-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply kimchi-canary-db --remote",
+    "audit:ui": "node scripts/ui-audit.mjs",
     "test": "node --test"
   },
   "devDependencies": {
+    "playwright": "^1.59.1",
     "sharp": "^0.34.5",
     "wrangler": "^4.83.0"
+  },
+  "dependencies": {
+    "three": "^0.184.0"
   }
 }
