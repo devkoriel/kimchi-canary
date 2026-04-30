@@ -1,12 +1,9 @@
 import { PUBLIC_CASES } from "./cases.js";
 import { APPLE_TOUCH_ICON_PNG_BASE64, FAVICON_PNG_BASE64 } from "./favicon.generated.js";
-import { LANGUAGES, getStrings } from "./i18n.js";
+import { getStrings } from "./i18n.js";
 import { OG_IMAGE_PNG_BASE64 } from "./og-image.generated.js";
-import { THREE_CORE_SOURCE, THREE_MODULE_SOURCE } from "./three.generated.js";
 import {
-  homeUrlForLanguage,
   renderAdmin,
-  renderAssessmentPage,
   renderAssessment,
   renderCaseDetail,
   renderFaviconImage,
@@ -14,9 +11,6 @@ import {
   renderHome,
   renderMethodology,
   renderOgImage,
-  renderReportPage,
-  renderWatchlistPage,
-  renderWebManifest,
 } from "./render.js";
 import { assessCandidate, SIGNALS } from "./scoring.js";
 
@@ -28,7 +22,6 @@ const JSON_HEADERS = {
 const PRODUCTION_ORIGIN = "https://kimchicanary.xyz";
 const ADMIN_COOKIE = "kc_admin";
 const ADMIN_SESSION_MAX_AGE_SECONDS = 8 * 60 * 60;
-const NOINDEX_HEADERS = { "x-robots-tag": "noindex, nofollow, noarchive" };
 
 export default {
   async fetch(request, env) {
@@ -39,12 +32,7 @@ export default {
       if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/") {
         const language = normalizeLanguage(url.searchParams.get("lang") || request.headers.get("accept-language"));
         const approvedReports = await listApprovedReports(env);
-        const response = htmlResponse(renderHome({ language, reportsEnabled: Boolean(env.DB), approvedReports, origin: publicOrigin }), {
-          headers: {
-            "content-language": language,
-            vary: "Accept-Language",
-          },
-        });
+        const response = htmlResponse(renderHome({ language, reportsEnabled: Boolean(env.DB), approvedReports, origin: publicOrigin }));
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
@@ -73,21 +61,6 @@ export default {
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/site.webmanifest") {
-        const response = manifestResponse(renderWebManifest(publicOrigin));
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/vendor/three.module.js") {
-        const response = javascriptResponse(THREE_MODULE_SOURCE);
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/vendor/three.core.min.js") {
-        const response = javascriptResponse(THREE_CORE_SOURCE);
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
       if (request.method === "GET" && url.pathname === "/robots.txt") {
         return textResponse(renderRobots(publicOrigin));
       }
@@ -97,31 +70,12 @@ export default {
       }
 
       if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/methodology") {
-        const response = htmlResponse(renderMethodology({ origin: publicOrigin }), { headers: { "content-language": "en" } });
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/assessment") {
-        const language = normalizeLanguage(url.searchParams.get("lang") || request.headers.get("accept-language"));
-        const response = htmlResponse(renderAssessmentPage({ language, origin: publicOrigin }), {
-          headers: { "content-language": language, vary: "Accept-Language" },
-        });
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/watchlist") {
-        const approvedReports = await listApprovedReports(env);
-        const response = htmlResponse(renderWatchlistPage({ approvedReports, origin: publicOrigin }), { headers: { "content-language": "en" } });
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
-      }
-
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/report") {
-        const response = htmlResponse(renderReportPage({ reportsEnabled: Boolean(env.DB), origin: publicOrigin }), { headers: { "content-language": "en" } });
+        const response = htmlResponse(renderMethodology({ origin: publicOrigin }));
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
       if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/kit") {
-        const response = htmlResponse(renderHiringKit({ origin: publicOrigin }), { headers: { "content-language": "en" } });
+        const response = htmlResponse(renderHiringKit({ origin: publicOrigin }));
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
@@ -131,7 +85,7 @@ export default {
         if (!caseItem) {
           return new Response("Not found", { status: 404 });
         }
-        const response = htmlResponse(renderCaseDetail({ caseItem, origin: publicOrigin }), { headers: { "content-language": "en" } });
+        const response = htmlResponse(renderCaseDetail({ caseItem, origin: publicOrigin }));
         return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
       }
 
@@ -169,12 +123,11 @@ export default {
         return logoutAdmin();
       }
 
-      if ((request.method === "GET" || request.method === "HEAD") && url.pathname === "/admin") {
-        const response = await renderAdminPage(request, env);
-        return request.method === "HEAD" ? new Response(null, { status: response.status, headers: response.headers }) : response;
+      if (request.method === "GET" && url.pathname === "/admin") {
+        return renderAdminPage(request, env);
       }
 
-      return new Response("Not found", { status: 404, headers: { ...NOINDEX_HEADERS, "content-type": "text/plain; charset=utf-8" } });
+      return new Response("Not found", { status: 404 });
     } catch (error) {
       const message = error instanceof PublicError ? error.message : "Unexpected server error.";
       const status = error instanceof PublicError ? error.status : 500;
@@ -325,13 +278,13 @@ async function updateReportStatus(request, env) {
 
 async function loginAdmin(request, env) {
   if (!env.DB || !env.ADMIN_TOKEN) {
-    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Admin moderation is not configured." }), { status: 503, headers: NOINDEX_HEADERS });
+    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Admin moderation is not configured." }), { status: 503 });
   }
 
   const payload = await readBody(request);
   const token = normalizeString(payload.token, 2000);
   if (!timingSafeEqual(token, env.ADMIN_TOKEN)) {
-    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Invalid admin token." }), { status: 401, headers: NOINDEX_HEADERS });
+    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Invalid admin token." }), { status: 401 });
   }
 
   const session = await createAdminSession(env.ADMIN_TOKEN);
@@ -357,13 +310,13 @@ function logoutAdmin() {
 
 async function renderAdminPage(request, env) {
   if (!env.DB || !env.ADMIN_TOKEN) {
-    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Admin moderation is not configured." }), { status: 503, headers: NOINDEX_HEADERS });
+    return htmlResponse(renderAdmin({ reports: [], authenticated: false, loginError: "Admin moderation is not configured." }), { status: 503 });
   }
 
   const auth = await getAdminAuth(request, env.ADMIN_TOKEN);
   if (!auth.ok) {
     return htmlResponse(renderAdmin({ reports: [], authenticated: false }), {
-      headers: { ...NOINDEX_HEADERS, "www-authenticate": 'Bearer realm="kimchi-canary-admin"' },
+      headers: { "www-authenticate": 'Bearer realm="kimchi-canary-admin"' },
     });
   }
 
@@ -377,7 +330,7 @@ async function renderAdminPage(request, env) {
   ).all();
 
   const csrfToken = auth.session ? await createCsrfToken(auth.session, env.ADMIN_TOKEN) : "";
-  return htmlResponse(renderAdmin({ reports: results || [], authenticated: true, csrfToken }), { headers: NOINDEX_HEADERS });
+  return htmlResponse(renderAdmin({ reports: results || [], authenticated: true, csrfToken }));
 }
 
 function validateReport(payload) {
@@ -643,7 +596,6 @@ function jsonResponse(body, init = {}) {
     ...init,
     headers: {
       ...JSON_HEADERS,
-      "x-robots-tag": "noindex, noarchive",
       ...(init.headers || {}),
     },
   });
@@ -669,16 +621,6 @@ function pngResponse(base64Body) {
   });
 }
 
-function javascriptResponse(body) {
-  return new Response(body, {
-    headers: {
-      "content-type": "text/javascript; charset=utf-8",
-      "cache-control": "public, max-age=31536000, immutable",
-      "x-content-type-options": "nosniff",
-    },
-  });
-}
-
 function textResponse(body) {
   return new Response(body, {
     headers: {
@@ -699,20 +641,8 @@ function xmlResponse(body) {
   });
 }
 
-function manifestResponse(body) {
-  return new Response(body, {
-    headers: {
-      "content-type": "application/manifest+json; charset=utf-8",
-      "cache-control": "public, max-age=86400",
-      "x-content-type-options": "nosniff",
-    },
-  });
-}
-
 function renderRobots(origin) {
   return `User-agent: *
-Disallow: /admin
-Disallow: /api/
 Allow: /
 
 Sitemap: ${origin}/sitemap.xml
@@ -720,37 +650,19 @@ Sitemap: ${origin}/sitemap.xml
 }
 
 function renderSitemap(origin) {
-  const latestDate = latestPublicDate();
-  const homeAlternates = [
-    ...LANGUAGES.map((language) => [language.code, homeUrlForLanguage(origin, language.code)]),
-    ["x-default", `${origin}/`],
-  ];
   const urls = [
-    ...LANGUAGES.map((language) => ({
-      loc: homeUrlForLanguage(origin, language.code),
-      changefreq: "weekly",
-      priority: language.code === "en" ? "1.0" : "0.9",
-      lastmod: latestDate,
-      alternates: homeAlternates,
-    })),
-    { loc: `${origin}/assessment`, changefreq: "weekly", priority: "0.9", lastmod: latestDate },
-    { loc: `${origin}/watchlist`, changefreq: "weekly", priority: "0.9", lastmod: latestDate },
-    { loc: `${origin}/report`, changefreq: "monthly", priority: "0.7", lastmod: latestDate },
-    { loc: `${origin}/methodology`, changefreq: "monthly", priority: "0.8", lastmod: latestDate },
-    { loc: `${origin}/kit`, changefreq: "monthly", priority: "0.8", lastmod: latestDate },
-    ...PUBLIC_CASES.map((item) => ({ loc: `${origin}/cases/${item.id}`, changefreq: "monthly", priority: "0.7", lastmod: item.date })),
+    { loc: `${origin}/`, changefreq: "weekly", priority: "1.0" },
+    { loc: `${origin}/methodology`, changefreq: "monthly", priority: "0.8" },
+    { loc: `${origin}/kit`, changefreq: "monthly", priority: "0.8" },
+    ...PUBLIC_CASES.map((item) => ({ loc: `${origin}/cases/${item.id}`, changefreq: "monthly", priority: "0.7" })),
   ];
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
   .map(
     (item) => `  <url>
-    <loc>${xmlEscape(item.loc)}</loc>
-${(item.alternates || [])
-  .map(([hreflang, href]) => `    <xhtml:link rel="alternate" hreflang="${xmlEscape(hreflang)}" href="${xmlEscape(href)}" />`)
-  .join("\n")}
-    <lastmod>${xmlEscape(item.lastmod)}</lastmod>
+    <loc>${item.loc}</loc>
     <changefreq>${item.changefreq}</changefreq>
     <priority>${item.priority}</priority>
   </url>`,
@@ -758,21 +670,6 @@ ${(item.alternates || [])
   .join("\n")}
 </urlset>
 `;
-}
-
-function latestPublicDate() {
-  return PUBLIC_CASES.map((item) => item.date)
-    .sort()
-    .at(-1);
-}
-
-function xmlEscape(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
 }
 
 function base64ToBytes(value) {
