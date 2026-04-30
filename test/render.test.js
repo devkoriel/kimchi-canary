@@ -43,7 +43,7 @@ test("renders Korean localized score labels", () => {
 test("keeps sticky result CSS unblocked by the main layout", () => {
   const html = renderHome();
 
-  assert.match(html, /main \{ overflow-x: clip; \}/);
+  assert.match(html, /main \{\s+flex: 1 0 auto;\s+overflow-x: clip;/);
   assert.match(html, /position: sticky/);
   assert.match(html, /"prompts result"/);
   assert.match(html, /max-height: calc\(100vh - 120px\)/);
