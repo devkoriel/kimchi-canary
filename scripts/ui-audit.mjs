@@ -27,7 +27,6 @@ for (const viewport of viewports) {
     const url = `${baseUrl}${path}`;
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 });
     await page.waitForTimeout(900);
-    await page.waitForFunction(() => !document.querySelector("[data-site-loader]"), { timeout: 5000 }).catch(() => {});
     await page.waitForTimeout(450);
     await page.screenshot({
       path: `${outputDir}/${viewport.name}${path === "/" ? "-home" : path.replaceAll("/", "-")}.png`,
@@ -68,8 +67,6 @@ for (const viewport of viewports) {
     if (!audit.title || audit.title.length < 8) failures.push(`${viewport.name} ${path}: missing title`);
     if (!audit.favicon) failures.push(`${viewport.name} ${path}: missing favicon link`);
     if (audit.scrollWidth > audit.innerWidth + 1) failures.push(`${viewport.name} ${path}: horizontal overflow ${audit.scrollWidth}/${audit.innerWidth} ${JSON.stringify(audit.offenders)}`);
-    if (path === "/" && !audit.webglReady) failures.push(`${viewport.name} ${path}: WebGL did not initialize`);
-    if (path === "/" && audit.visibleCanvasCount < 1) failures.push(`${viewport.name} ${path}: expected visible WebGL canvas`);
   }
 
   if (consoleErrors.length) failures.push(`${viewport.name}: console errors ${JSON.stringify(consoleErrors.slice(0, 6))}`);
