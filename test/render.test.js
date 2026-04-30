@@ -22,7 +22,7 @@ test("exposes the broad language set with operational translations", () => {
 
 test("non-English pages localize primary questionnaire chrome", () => {
   for (const language of LANGUAGES.filter((item) => item.code !== "en")) {
-    const html = renderAssessmentPage({ language: language.code, origin: "https://kimchicanary.xyz" });
+    const html = renderHome({ language: language.code, reportsEnabled: false, approvedReports: [], origin: "https://kimchicanary.xyz" });
 
     assert.doesNotMatch(html, /Screen observed fraud indicators before access increases\./, language.code);
     assert.doesNotMatch(html, /Name, address, education, work history/, language.code);
@@ -33,7 +33,7 @@ test("non-English pages localize primary questionnaire chrome", () => {
 });
 
 test("renders localized Chinese questionnaire text", () => {
-  const html = renderAssessmentPage({ language: "zh", origin: "https://kimchicanary.xyz" });
+  const html = renderHome({ language: "zh", reportsEnabled: false, approvedReports: [], origin: "https://kimchicanary.xyz" });
 
   assert.match(html, /身份和文件/);
   assert.match(html, /候选人声称有韩国学历/);
@@ -61,18 +61,15 @@ test("keeps sticky result CSS unblocked by the main layout", () => {
 
 test("adds operational trust surfaces and searchable watchlist", () => {
   const html = renderHome({ origin: "https://kimchicanary.xyz" });
-  const watchlist = renderWatchlistPage({ origin: "https://kimchicanary.xyz" });
 
-  assert.doesNotMatch(html, /data-site-loader/);
-  assert.doesNotMatch(html, /site-loader/);
   assert.match(html, /href="\/methodology"/);
   assert.match(html, /href="\/kit"/);
   assert.match(html, /href="\/assessment"/);
   assert.match(html, /href="\/watchlist"/);
   assert.match(html, /href="\/report"/);
-  assert.match(watchlist, /id="case-search"/);
-  assert.match(watchlist, /data-case-card/);
-  assert.match(watchlist, /View dossier/);
+  assert.match(html, /id="case-search"/);
+  assert.match(html, /data-case-card/);
+  assert.match(html, /View dossier/);
 });
 
 test("renders methodology, printable kit, assessment, watchlist, report, and case detail pages", () => {
@@ -89,7 +86,7 @@ test("renders methodology, printable kit, assessment, watchlist, report, and cas
   assert.match(kit, /USDC or crypto payroll is normal in Web3/);
   assert.match(assessment, /Active Assessment Protocol/);
   assert.match(assessment, /Screen observed fraud indicators before access increases\./);
-  assert.match(watchlist, /Official-Source Watchlist/);
+  assert.match(watchlist, /Official source watchlist/);
   assert.match(report, /Private by default\. Published only after review\./);
   assert.match(detail, /Listed people\/entities/);
   assert.match(detail, /Official case page/);

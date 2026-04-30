@@ -20,23 +20,6 @@ const LANGUAGE_LOCALES = {
   hi: "hi_IN",
 };
 
-const STITCH_ASSETS = {
-  tacticalCanary:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBbEH-F4HugNHU_Je6xobw12AOxil8BFLTEKg2fr2WDDA6sbZgFb2n2qRr6_Z1MzBF5_ABuQqIINPtzrxFHjwf6w-Td2mpq5Pk479Q97NPwQf_X-CDSujQIVLK81MdAX0ce9ZK7mXqFZgbS1ByKSj_-IZPlL09k4yZPiSEkg1meMBb4bmtJX-g1iIbYzRSPQkISoBkhmjQ1ByI-7dF4y9Hbp2FRuqQ-8T2SRaAdLObVeF5C8R2gAvYQcK8GFMVaP54EPexVthTD",
-  heroFlags:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCqiM-eLt6uu-e0myLbATWUmcM5G2Oin5yxJ3dUb-ZSANPh9d7PFZ513Cn3fKsIBONC7gPqOSAQ_5nJK0EAtY6nmfCvKnkaC5ApuP5NTQtAe7u36gfelQjaBhwNo4SmWQ8zS3PKKkzMj21tNDWBE7uoF3FcbaOgQJ_fRCJQM8yGKQS9XpzDTCAED96GtO2pmj61J-SlBfhk9TrHedHHNKzUY_5tfUpltODrxgW4Gq_gYB4x7dRFO9WmY-Ne7ZRgTyC0mwyVqfRr",
-  assessmentRadar:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCd4_vrMpFyvPMdYdXkx9MIlUeaJ0NjAXO0PChYxRqR8KRlZ1T_cJWPuMhEiipYUxPCv9ujWoInS40ihV0XkAgV0MssbF4tXnQvrBUHJYF6W9wYJesoqA5sYGt0YQkhX5lA0-pfKcsKo54SpQJ_cA5HCPdWUdLZrviREyg9eYrwB3lKMQCjs9N04Ef_aVJWGz2ft6jWqXe-G4ATxuK7o0xkPqL8auey5FlHd5rK33OgK-MDIpCNsT1ig8qaR8OfQQgY-wzBC7dM",
-  reportVault:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuC_0X3eUUTPVEr08nTzAFo9JN0NmMRlpa7FykrXOwQR1AvbXxRMU7pyCJlOeksJbReyZEnSJuKl6fe4dj1DvPaZxyBegEgdPSW_IpAHV3WI6tOaz5cgWpiASVKbCaveqk_noy4Veo8X0VBn7FvU_vq8Jks2SvuscDxRoiylal9ArimGQfZAi7t-bEbKCFKRI3vQzn0ubv57WhvCUnm-XPbld4nKK_tE3tOd-gIffh7Rnm1A7hLgonxJGwhva1OUHbCKgLie5Gd3",
-  defenseCore:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuA9Jf8lWE4U1cg8ivaA-u9MHVmq3mP3xJOYCbqAuHPnuKFAVSY8CS8fbT0OuIAQQDigeymxlB5HZQg-SAFVaZWj8Dj5tKDGm-5_VHkKRWs3PThUzpUakT4sIoFQVhH56IEKCsrlYNt9biCBSfAiKxi_1BQPiXHPpEppUejYJbUF_BSxhVQ1UQkz9fFrFbvk5K8Fs15-137ssir2KOI6tlmKFq0bIRLdc8cPNcMrG1VK6Cz-JNbB-sWLvYXDdlaDzzFBE7S3tYey",
-  operatorAvatar:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCFcwgqvdTCfmF-xN2hQIfGtRxzlHGH30fXq6ehmF-WlmntanyDk4KRFqr65XpJwAGPkTNhISRNhlHj24OWEVg6v781bPF_XTMT5IylHh5--b-7hAlSMw5IeHGHMFyzMAqxkbzOTtcaGbG2bZ-QdOhJykyzd_FxpBeNyXNuQuEE64uMY15n-8U1dKWe1fEbdQPDI7V4aJkYtVJl5xbWLlHocKXGNLWh3wwK_-yhmZjn604CNpLSfwLHsou4Tte45l29xFA5iiG4",
-  adminAvatar:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCXJve5OtHwEi3clp3-n0rcf_RLmvl7GoS6iqN8Vd30q-9M2NFfHoyH40RtXJifTdRfJ0ZeMAPVgp-jxYdKQ293qxd3JiM4AgrKZj1ztQrrBAg3C6oxrdiru-PwR-427S_zSakC0nQ7e4axM6UTXr_jF0-3cRxRCrZak4Z0D4WzMwK_PlCBd1TXTWvVXmHgKfOCD0b-WJKk2syxkPrkZUflU5D7Ir4f7aCFZeP8nI-CxPx-AHP1j1XHYWs5x13giccBZbc_IJqK",
-};
-
 const SOURCE_BY_ID = new Map([
   ...OFFICIAL_SOURCES.map((source) => [source.id, source]),
   ...Object.entries(EXTRA_SOURCE_LINKS).map(([id, source]) => [id, source]),
@@ -45,6 +28,9 @@ const SOURCE_BY_ID = new Map([
 export function renderHome({ language = "en", reportsEnabled = true, approvedReports = [], origin = "https://kimchicanary.xyz" } = {}) {
   const t = getStrings(language);
   const dir = language === "ar" ? "rtl" : "ltr";
+  const initialAssessment = assessCandidate([]);
+  const listedSubjects = PUBLIC_CASES.reduce((total, item) => total + item.names.length, 0);
+  const officialPhotos = PUBLIC_CASES.reduce((total, item) => total + (item.photos?.length || 0), 0);
   const canonicalUrl = homeUrlForLanguage(origin, language);
   const ogImageUrl = `${origin}/og.png`;
   const description = SITE_DESCRIPTION;
@@ -89,26 +75,128 @@ export function renderHome({ language = "en", reportsEnabled = true, approvedRep
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderShellChrome({ language, t, active: "home", showLanguage: false })}
+        <div class="site-loader" data-site-loader aria-hidden="true">
+          <div class="loader-core">
+            <div class="loader-logo">${renderKimchiLogo()}</div>
+            <p class="loader-kicker">Web3 hiring risk desk</p>
+            <strong>Kimchi Canary</strong>
+            <span class="loader-line"><span></span></span>
+            <p class="loader-status">Booting receipts. Calibrating canary. Bonking proxy fog.</p>
+          </div>
+        </div>
+        ${renderShellChrome({ language, t, active: "home", showLanguage: true })}
 
-        <main class="ops-main home-main">
+        <main class="ops-main">
           <section class="hero">
             ${renderFlagDuel()}
             <div class="hero-inner">
-              <p class="eyebrow">&gt; Booting receipts... calibrating canary...</p>
+              <p class="eyebrow">${escapeHtml(t.eyebrow)}</p>
               <h1><span>Kimchi</span><span class="hero-green">Canary</span></h1>
-              <p class="subtitle">Web3 hiring risk desk for DPRK remote IT worker fraud indicators. <span>&gt; Proxy fog bonked.</span></p>
+              <p class="subtitle">${escapeHtml(t.subtitle)}</p>
+              <p class="hero-copy">${escapeHtml(t.heroCopy)}</p>
               <div class="hero-actions">
-                <a class="button primary" href="/assessment">▶ ${escapeHtml(t.startAssessment)}</a>
+                <a class="button primary" href="/assessment">${escapeHtml(t.startAssessment)}</a>
                 <a class="button secondary" href="/watchlist">${escapeHtml(t.watchlist || "Watchlist")}</a>
                 <a class="button secondary" href="/report">${escapeHtml(t.reportSuspect)}</a>
-                <a class="button secondary" href="/kit">Hiring Kit</a>
+                <a class="button secondary" href="/kit">Print hiring kit</a>
               </div>
-              <p class="hero-copy">&gt; Receipts first. Vibes later.</p>
+              <div class="stat-row" aria-label="Database scope">
+                <span><strong>${PUBLIC_CASES.length}</strong> ${escapeHtml(t.verifiedSourceGroups || "verified source groups")}</span>
+                <span><strong>${listedSubjects}</strong> ${escapeHtml(t.listedSubjects || "listed people/entities")}</span>
+                <span><strong>${officialPhotos}</strong> ${escapeHtml(t.officialPhotos || "official photos")}</span>
+              </div>
             </div>
           </section>
 
-          ${renderHomeRiskRadar()}
+          <section class="bonk-strip">
+            ${renderFraudBonk(t)}
+          </section>
+
+          <section class="trust-band" id="trust">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.trustTitle)}</p>
+              <h2>${escapeHtml(t.trustCopy)}</h2>
+              ${renderSectionVisual("globe")}
+            </div>
+            <div class="trust-grid">
+              ${(t.trustCards || []).map((card) => html`<article><strong>${escapeHtml(card.title)}</strong><p>${escapeHtml(card.copy)}</p></article>`).join("")}
+            </div>
+          </section>
+
+          <section class="tool-grid" id="assessment">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.assessmentTitle)}</p>
+              <h2>${escapeHtml(t.assessmentHeading || "Screen observed fraud indicators before access increases.")}</h2>
+              <p>${escapeHtml(t.assessmentCopy)}</p>
+              ${language !== "en" && t.translationNote ? html`<p class="translation-note">${escapeHtml(t.translationNote)}</p>` : ""}
+              ${renderSectionVisual("radar")}
+            </div>
+            <aside class="result-panel" id="result-panel" aria-live="polite">
+              ${renderAssessment(initialAssessment, t)}
+            </aside>
+            <form class="questionnaire" id="questionnaire">
+              ${SIGNAL_CATEGORIES.map((category) => renderCategory(category, t)).join("")}
+            </form>
+            ${renderInterviewPrompts(t)}
+          </section>
+
+          <section class="workflow">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.playbookEyebrow || "Operational playbook")}</p>
+              <h2>${escapeHtml(t.playbookTitle || "Useful in real hiring, vendor review, and incident response.")}</h2>
+              ${renderSectionVisual("workflow")}
+            </div>
+            <div class="steps">
+              ${(t.workflowSteps || []).map(
+                (step, index) => html`<article>
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${escapeHtml(step.title)}</h3>
+                  <p>${escapeHtml(step.copy)}</p>
+                </article>`,
+              ).join("")}
+            </div>
+          </section>
+
+          <section class="report-section" id="reports">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.reportTitle)}</p>
+              <h2>${escapeHtml(t.reportCopy)}</h2>
+              <p class="contact-note">Need native South Korean review for Korean-language, dialect, vocabulary, or claimed-background consistency? Contact <a href="mailto:dev.koriel@gmail.com">dev.koriel@gmail.com</a>.</p>
+              ${renderSectionVisual("queue")}
+            </div>
+            ${reportsEnabled ? renderReportForm(t) : renderDisabledReports()}
+          </section>
+
+          <section class="cases-section" id="cases">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.officialCases)}</p>
+              <h2>${escapeHtml(t.casesCopy)}</h2>
+              ${renderSectionVisual("watchlist")}
+            </div>
+            <div class="watchlist-tools">
+              <label>
+                Search watchlist
+                <input id="case-search" type="search" autocomplete="off" placeholder="Name, alias, case, indicator, source..." />
+              </label>
+              <span id="case-count">${PUBLIC_CASES.length} official source groups</span>
+            </div>
+            <div class="case-list">
+              ${PUBLIC_CASES.map(renderCase).join("")}
+            </div>
+          </section>
+
+          ${approvedReports.length ? renderApprovedReports(approvedReports) : ""}
+
+          <section class="sources-section" id="sources">
+            <div class="section-head">
+              <p class="eyebrow">${escapeHtml(t.sources)}</p>
+              <h2>Primary references used for Kimchi Canary controls.</h2>
+              ${renderSectionVisual("sources")}
+            </div>
+            <div class="source-list">
+              ${[...OFFICIAL_SOURCES, ...Object.values(EXTRA_SOURCE_LINKS)].map(renderSource).join("")}
+            </div>
+          </section>
         </main>
 
         ${renderFooter()}
@@ -155,65 +243,82 @@ export function renderFaviconImage() {
   return renderLogoMark("faviconLogo", "", 'xmlns="http://www.w3.org/2000/svg" width="512" height="512"');
 }
 
-function renderHomeRiskRadar() {
-  return html`<section class="home-risk-radar" aria-label="Risk matrix radar preview">
-    <div class="radar-heading">
-      <h2><span>01.</span> Risk Matrix Radar</h2>
-      <p>Live diagnostic telemetry. Evaluate applicant anomalies against verified threat vectors.</p>
-    </div>
-    <div class="radar-preview-grid">
-      <aside class="radar-score-card">
-        <div class="radar-score-top">
-          <span>Threat level</span>
-          <strong>87.4%</strong>
-        </div>
-        <div class="radar-bars">
-          <div>
-            <span><b>IP Anomaly</b><em>Critical</em></span>
-            <i style="--bar: 90%; --bar-color: var(--danger);"></i>
-          </div>
-          <div>
-            <span><b>GitHub History</b><em>Elevated</em></span>
-            <i style="--bar: 65%; --bar-color: var(--gold);"></i>
-          </div>
-          <div>
-            <span><b>Interview Tech</b><em>Nominal</em></span>
-            <i style="--bar: 20%; --bar-color: var(--accent);"></i>
-          </div>
-        </div>
-      </aside>
-      <article class="radar-question-card">
-        <div class="radar-question">
-          <h3>Did the applicant insist on specific camera-off protocols?</h3>
-          <label><input type="radio" name="home-q1" /> Affirmative</label>
-          <label><input type="radio" name="home-q1" /> Negative</label>
-        </div>
-        <div class="radar-question is-hot">
-          <h3>Are there multiple timezone inconsistencies in commit history?</h3>
-          <label><input checked type="radio" name="home-q2" /> Affirmative</label>
-          <label><input type="radio" name="home-q2" /> Negative</label>
-        </div>
-      </article>
-    </div>
-  </section>`;
-}
-
-function renderStitchImage(key, className, alt) {
-  const src = STITCH_ASSETS[key];
-  if (!src) return "";
-  return html`<img class="${escapeAttribute(className)}" src="${escapeAttribute(src)}" alt="${escapeAttribute(alt)}" loading="lazy" decoding="async" />`;
-}
-
-function renderStitchVisual(key, label) {
-  return html`<div class="stitch-visual stitch-visual-${escapeAttribute(key)}" aria-hidden="true">
-    ${renderStitchImage(key, "stitch-visual-image", label)}
-    <span>${escapeHtml(label)}</span>
-  </div>`;
-}
-
 function renderFlagDuel() {
-  return html`<section class="flag-duel stitch-flag-duel" aria-label="South Korean and North Korean flag cyber-defense hero image">
-    ${renderStitchImage("heroFlags", "stitch-hero-bg", "Hyper-realistic South Korea and North Korea digital flag tension background")}
+  return html`<section class="flag-duel" data-flag-duel aria-label="Interactive South Korean and North Korean flag animation">
+    <canvas class="hero-webgl" data-webgl-hero aria-hidden="true"></canvas>
+    <div class="flag-field" data-flag-field role="img" aria-label="South Korean and North Korean flags fluttering behind an interactive diagonal compliance scan" style="--split: 70%; --mx: 0px; --my: 0px; --cursor-x: 50%; --cursor-y: 50%;">
+      <div class="flag-panel flag-panel-south" aria-hidden="true">
+        <svg class="flag-art" viewBox="0 0 960 520" preserveAspectRatio="none">
+          <rect width="960" height="520" fill="#f8fbff" />
+          <g opacity="0.1">
+            <path d="M0 82c154-54 286 40 438-7 188-58 302 30 522-36v481H0z" fill="#101418" />
+            <path d="M0 298c165-48 292 52 464-2 180-56 318 22 496-30v254H0z" fill="#101418" />
+          </g>
+          <g transform="translate(480 260) scale(1.12)">
+            <circle r="78" fill="#0047a0" />
+            <path d="M-78 0a78 78 0 0 1 156 0c0 22-17 39-39 39S0 22 0 0s-17-39-39-39-39 17-39 39z" fill="#cd2e3a" />
+            <path d="M78 0a78 78 0 0 1-156 0c0-22 17-39 39-39S0-22 0 0s17 39 39 39 39-17 39-39z" fill="#0047a0" />
+          </g>
+          <g fill="#101418">
+            <g transform="translate(244 142) rotate(-34)">
+              <rect x="-64" y="-30" width="128" height="13" />
+              <rect x="-64" y="-7" width="128" height="13" />
+              <rect x="-64" y="16" width="128" height="13" />
+            </g>
+            <g transform="translate(716 142) rotate(34)">
+              <rect x="-64" y="-30" width="55" height="13" />
+              <rect x="9" y="-30" width="55" height="13" />
+              <rect x="-64" y="-7" width="128" height="13" />
+              <rect x="-64" y="16" width="55" height="13" />
+              <rect x="9" y="16" width="55" height="13" />
+            </g>
+            <g transform="translate(244 378) rotate(34)">
+              <rect x="-64" y="-30" width="128" height="13" />
+              <rect x="-64" y="-7" width="55" height="13" />
+              <rect x="9" y="-7" width="55" height="13" />
+              <rect x="-64" y="16" width="128" height="13" />
+            </g>
+            <g transform="translate(716 378) rotate(-34)">
+              <rect x="-64" y="-30" width="55" height="13" />
+              <rect x="9" y="-30" width="55" height="13" />
+              <rect x="-64" y="-7" width="55" height="13" />
+              <rect x="9" y="-7" width="55" height="13" />
+              <rect x="-64" y="16" width="55" height="13" />
+              <rect x="9" y="16" width="55" height="13" />
+            </g>
+          </g>
+          <text x="46" y="462" fill="#101418" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="950" letter-spacing="3">SOUTH KOREA COMPLIANCE WIND</text>
+        </svg>
+      </div>
+      <div class="flag-panel flag-panel-north" aria-hidden="true">
+        <svg class="flag-art" viewBox="0 0 960 520" preserveAspectRatio="none">
+          <rect width="960" height="520" fill="#024fa2" />
+          <rect y="96" width="960" height="34" fill="#ffffff" />
+          <rect y="390" width="960" height="34" fill="#ffffff" />
+          <rect y="130" width="960" height="260" fill="#ed1c27" />
+          <g opacity="0.16">
+            <path d="M0 112c160-58 292 42 450-8 190-60 314 30 510-38v454H0z" fill="#101418" />
+            <path d="M0 330c172-46 302 48 475-4 182-54 334 18 485-34v228H0z" fill="#101418" />
+          </g>
+          <circle cx="262" cy="260" r="96" fill="#ffffff" />
+          <path d="M262 174l22 63 66 2-52 39 19 64-55-38-55 38 19-64-52-39 66-2z" fill="#ed1c27" />
+          <text x="564" y="462" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="950" letter-spacing="3">PROXY FOG WARNING</text>
+        </svg>
+      </div>
+      <div class="flag-shine" aria-hidden="true"></div>
+      <div class="flag-wind wind-one" aria-hidden="true"></div>
+      <div class="flag-wind wind-two" aria-hidden="true"></div>
+      <div class="flag-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="flag-divider" aria-hidden="true"><span>SCAN</span></div>
+    </div>
+    <div class="flag-scoreboard" aria-hidden="true">
+      <span>South Korea wind <strong data-flag-south>70</strong>%</span>
+      <span>Proxy fog <strong data-flag-north>30</strong>%</span>
+    </div>
+    <div class="flag-reticle" aria-hidden="true"><span></span></div>
+    <p id="flag-humor" class="flag-humor" data-flag-humor>South Korea is winning. The laptop farm has requested a recount from an undisclosed VPS.</p>
   </section>`;
 }
 
@@ -226,8 +331,38 @@ function renderSectionVisual(kind) {
     watchlist: "Official-source scanner active",
     sources: "Evidence orbit locked",
   };
+  const content = {
+    globe: html`<div class="visual-object globe-object">
+      <span class="earth-shell"><span class="continent continent-one"></span><span class="continent continent-two"></span><span class="continent continent-three"></span><span class="threat-node"></span></span>
+      <span class="shield-ring ring-one"></span><span class="shield-ring ring-two"></span><span class="shield-plate plate-one"></span><span class="shield-plate plate-two"></span>
+    </div>`,
+    radar: html`<div class="visual-object radar-object">
+      <span class="radar-base"></span><span class="radar-dish"></span><span class="radar-sweep"></span><span class="radar-blip blip-one"></span><span class="radar-blip blip-two"></span><span class="radar-blip blip-three"></span>
+    </div>`,
+    workflow: html`<div class="visual-object tunnel-object">
+      <span class="tunnel-ring tunnel-one"></span><span class="tunnel-ring tunnel-two"></span><span class="tunnel-ring tunnel-three"></span><span class="gate-card gate-one">ID</span><span class="gate-card gate-two">KYC</span><span class="gate-card gate-three">SSH</span>
+    </div>`,
+    queue: html`<div class="visual-object vault-object">
+      <span class="vault-body"><span class="vault-dial"></span><span class="vault-slot"></span></span><span class="sealed-report report-one"></span><span class="sealed-report report-two"></span><span class="sealed-report report-three"></span>
+    </div>`,
+    watchlist: html`<div class="visual-object scanner-object">
+      <span class="photo-cube cube-one"></span><span class="photo-cube cube-two"></span><span class="photo-cube cube-three"></span><span class="scanner-beam"></span><span class="scanner-frame"></span>
+    </div>`,
+    sources: html`<div class="visual-object sources-object">
+      <span class="source-core">SRC</span><span class="source-node source-one"></span><span class="source-node source-two"></span><span class="source-node source-three"></span><span class="source-orbit source-orbit-one"></span><span class="source-orbit source-orbit-two"></span>
+    </div>`,
+  };
   return html`<div class="section-visual section-visual-${kind}" aria-hidden="true">
+    <canvas class="section-webgl" data-webgl-section="${escapeAttribute(kind)}"></canvas>
     <div class="visual-stage">
+      ${content[kind] || content.globe}
+      <span class="scan-line"></span>
+      <span class="micro-dot dot-one"></span>
+      <span class="micro-dot dot-two"></span>
+      <span class="micro-dot dot-three"></span>
+      <span class="micro-dot dot-four"></span>
+      <span class="micro-dot dot-five"></span>
+      <span class="micro-dot dot-six"></span>
       <span class="micro-label">${escapeHtml(labels[kind] || "Compliance defense animation")}</span>
     </div>
   </div>`;
@@ -363,7 +498,7 @@ export function renderAdmin({ reports = [], authenticated = false, csrfToken = "
               : html`<section class="section-head admin-login-head">
                   <div class="login-logo">${renderKimchiLogo()}</div>
                   <p class="eyebrow">Admin review desk</p>
-                  <h1>Admin Review Desk</h1>
+                  <h1>Moderation requires receipts.</h1>
                   <p>Sign in with the Cloudflare ADMIN_TOKEN. Reports stay private until approved.</p>
                 </section>
                 <form class="report-form admin-login" method="post" action="/admin/login">
@@ -431,32 +566,25 @@ export function renderAssessmentPage({ language = "en", origin = "https://kimchi
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderFocusedTopbar("assessment")}
-        <main class="ops-main focused-main assessment-page">
-          <section class="assessment-command-head">
+        ${renderSimpleTopbar("assessment")}
+        <main class="ops-main assessment-page">
+          <section class="section-head assessment-hero">
             <div>
-              <p class="eyebrow">OP-LEVEL-ALPHA</p>
+              <p class="eyebrow">Assessment protocol</p>
               <h1>Active Assessment Protocol</h1>
               <p>${escapeHtml(t.assessmentHeading || "Screen observed fraud indicators before access increases.")}</p>
-              <p class="system-note">Receipts first. Vibes later. Vibes are not evidence. USDC payroll is normal in Web3 and is not suspicious by itself.</p>
-              ${language !== "en" && t.translationNote ? html`<p class="translation-note">${escapeHtml(t.translationNote)}</p>` : ""}
+              <p class="system-note">Evidence first. Vibes are not evidence. USDC payroll is normal in Web3 and is not suspicious by itself.</p>
             </div>
-            <aside class="assessment-directive">
-              <strong>Evidence-first:</strong>
-              <span>No nationality shortcuts. No political tests. Score only observed indicators and verifiable records.</span>
-            </aside>
+            ${renderSectionVisual("radar")}
           </section>
-          <section class="assessment-ops-grid" id="assessment">
-            <div class="assessment-console">
-              ${renderStitchVisual("assessmentRadar", "Initializing scan...")}
-              <form class="questionnaire assessment-signal-console" id="questionnaire">
-                ${SIGNAL_CATEGORIES.map((category) => renderAssessmentConsoleSection(category, t)).join("")}
-              </form>
-              ${renderInterviewPrompts(t)}
-            </div>
-            <aside class="result-panel stitch-result-panel" id="result-panel" aria-live="polite">
+          <section class="tool-grid workbench-grid" id="assessment">
+            <aside class="result-panel" id="result-panel" aria-live="polite">
               ${renderAssessment(initialAssessment, t)}
             </aside>
+            <form class="questionnaire" id="questionnaire">
+              ${SIGNAL_CATEGORIES.map((category) => renderCategory(category, t)).join("")}
+            </form>
+            ${renderInterviewPrompts(t)}
           </section>
         </main>
         ${renderFooter()}
@@ -503,10 +631,10 @@ export function renderWatchlistPage({ approvedReports = [], origin = "https://ki
           <section class="section-head dossier-head">
             <div>
               <p class="eyebrow">Threat watchlist</p>
-              <h1>Official-Source Watchlist</h1>
+              <h1>Official source watchlist.</h1>
               <p>Receipts first. Vibes later. Mystery laptop address denied boarding.</p>
             </div>
-            ${renderStitchVisual("defenseCore", "Official-source scanner active")}
+            ${renderSectionVisual("watchlist")}
           </section>
           <section class="policy-strip">
             <strong>Publication policy</strong>
@@ -577,8 +705,8 @@ export function renderReportPage({ reportsEnabled = true, origin = "https://kimc
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderFocusedTopbar("report")}
-        <main class="ops-main focused-main report-page report-workbench">
+        ${renderSimpleTopbar("report")}
+        <main class="ops-main report-page report-workbench">
           <section class="report-brief">
             <p class="eyebrow">Secure incident reporting</p>
             <h1>Secure Incident Reporting</h1>
@@ -591,7 +719,7 @@ export function renderReportPage({ reportsEnabled = true, origin = "https://kimc
                 <li>Reporter identity is never published with a public listing.</li>
               </ul>
             </div>
-            ${renderStitchVisual("reportVault", "Private report vault sealed")}
+            ${renderSectionVisual("queue")}
             <div class="policy-strip">
               <strong>Approval gate</strong>
               <p>Reports enter a moderation queue. I approve public listing only when evidence is sufficient and reviewable.</p>
@@ -662,8 +790,8 @@ export function renderMethodology({ origin = "https://kimchicanary.xyz" } = {}) 
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderFocusedTopbar("methodology")}
-        <main class="ops-main focused-main page-main methodology-page">
+        ${renderSimpleTopbar("methodology")}
+        <main class="ops-main page-main methodology-page">
           <canvas class="page-webgl" data-webgl-page="methodology" aria-hidden="true"></canvas>
           <section class="section-head methodology-hero">
             <p class="eyebrow">Methodology</p>
@@ -772,8 +900,9 @@ export function renderHiringKit({ origin = "https://kimchicanary.xyz" } = {}) {
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderShellChrome({ active: "kit" })}
+        ${renderSimpleTopbar("kit")}
         <main class="ops-main page-main kit-page protocol-page">
+          <canvas class="page-webgl" data-webgl-page="kit" aria-hidden="true"></canvas>
           <section class="protocol-head">
             <div>
               <p class="eyebrow">Printable hiring kit</p>
@@ -883,8 +1012,8 @@ export function renderCaseDetail({ caseItem, origin = "https://kimchicanary.xyz"
         <style>${styles()}</style>
       </head>
       <body>
-        ${renderFocusedTopbar("watchlist")}
-        <main class="ops-main focused-main page-main case-detail-page">
+        ${renderSimpleTopbar("watchlist")}
+        <main class="ops-main page-main case-detail-page">
           <canvas class="page-webgl" data-webgl-page="case" aria-hidden="true"></canvas>
           <section class="case-breadcrumb" aria-label="Breadcrumb">
             <a href="/watchlist">Dossiers</a>
@@ -992,31 +1121,6 @@ export function renderAssessment(assessment, t = getStrings("en")) {
     </div>`;
 }
 
-function renderAssessmentConsoleSection(category, t = getStrings("en")) {
-  const signals = SIGNALS.filter((signal) => signal.category === category.id);
-  const label = t.categoryLabels?.[category.id] || category.label;
-  const description = t.categoryDescriptions?.[category.id] || category.description;
-  return html`<fieldset class="assessment-console-section">
-    <legend>
-      <span>${escapeHtml(label)}</span>
-      ${description ? html`<small>${escapeHtml(description)}</small>` : ""}
-    </legend>
-    ${signals.map((signal) => renderAssessmentConsoleRow(signal, t)).join("")}
-  </fieldset>`;
-}
-
-function renderAssessmentConsoleRow(signal, t = getStrings("en")) {
-  const label = t.signalLabels?.[signal.id] || t.signalFallback || signal.label;
-  return html`<label class="signal assessment-signal-row">
-    <input type="checkbox" name="signal" value="${escapeHtml(signal.id)}" />
-    <span class="signal-copy">
-      <strong>${escapeHtml(label)}</strong>
-      <small>${escapeHtml(t.weightLabel || "Weight")} ${escapeHtml(String(signal.weight))}${signal.critical ? ` / ${escapeHtml(t.criticalLabel || "critical")}` : ""}</small>
-    </span>
-    <input class="signal-note" type="text" name="note-${escapeAttribute(signal.id)}" placeholder="Evidence note" />
-  </label>`;
-}
-
 function renderCategory(category, t = getStrings("en")) {
   const signals = SIGNALS.filter((signal) => signal.category === category.id);
   const label = t.categoryLabels?.[category.id] || category.label;
@@ -1077,46 +1181,37 @@ function renderReportForm(t) {
       Website
       <input name="website" type="text" autocomplete="off" tabindex="-1" />
     </label>
-    <section class="form-block">
-      <h2>Reporter Identity</h2>
-      <div class="form-row">
-        <label>
-          Reporter email
-          <input required name="reporterEmail" type="email" autocomplete="email" placeholder="secure@domain.com" />
-        </label>
-        <label>
-          Organization
-          <input name="organization" type="text" maxlength="160" placeholder="Company or security team" />
-        </label>
-      </div>
-    </section>
-    <section class="form-block">
-      <h2>Subject Details</h2>
-      <div class="form-row">
-        <label>
-          Subject name / handle
-          <input required name="subjectName" type="text" maxlength="200" placeholder="Target alias" />
-        </label>
-        <label>
-          Primary profile URL
-          <input name="subjectProfileUrl" type="url" placeholder="https://twitter.com/..." />
-        </label>
-      </div>
-    </section>
-    <section class="form-block">
-      <h2>Evidence Chain</h2>
-      <div class="form-row">
-        <label>
-          Evidence URL
-          <input name="sourceUrl" type="url" placeholder="ar://, ipfs://, https://official-source..." />
-        </label>
-        <label>
-          Evidence summary
-          <input name="evidenceSummary" type="text" maxlength="2000" placeholder="One-line fact pattern" />
-        </label>
-      </div>
-    </section>
-    <fieldset class="evidence-fieldset form-block">
+    <div class="form-row">
+      <label>
+        Reporter email
+        <input required name="reporterEmail" type="email" autocomplete="email" placeholder="security@example.com" />
+      </label>
+      <label>
+        Organization
+        <input name="organization" type="text" maxlength="160" placeholder="Company or security team" />
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        Suspect display name or handle
+        <input required name="subjectName" type="text" maxlength="200" placeholder="Name, handle, or profile" />
+      </label>
+      <label>
+        Suspect profile URL
+        <input name="subjectProfileUrl" type="url" placeholder="https://profile.example" />
+      </label>
+    </div>
+    <div class="form-row">
+      <label>
+        Source or evidence URL
+        <input name="sourceUrl" type="url" placeholder="Official source URL" />
+      </label>
+      <label>
+        Evidence summary
+        <input name="evidenceSummary" type="text" maxlength="2000" placeholder="One-line fact pattern" />
+      </label>
+    </div>
+    <fieldset class="evidence-fieldset">
       <legend>
         <span>Evidence type</span>
         <small>Select every category you can support with records.</small>
@@ -1141,8 +1236,8 @@ function renderReportForm(t) {
           .join("")}
       </div>
     </fieldset>
-    <label class="form-block">
-      Narrative / context
+    <label>
+      What happened?
       <textarea required name="narrative" rows="6" maxlength="6000" placeholder="List observed facts, dates, systems involved, and evidence you can provide privately."></textarea>
     </label>
     <label class="consent">
@@ -1153,7 +1248,7 @@ function renderReportForm(t) {
       <input required type="checkbox" name="acknowledge" value="yes" />
       <span>I understand this report is private and will not be published without review and sufficient evidence.</span>
     </label>
-    <button class="button primary" type="submit">Encrypt &amp; Submit</button>
+    <button class="button primary" type="submit">${escapeHtml(t.submitReport)}</button>
     <p class="form-status" id="report-status" role="status"></p>
   </form>`;
 }
@@ -1402,11 +1497,11 @@ function renderLogoMark(idPrefix = "kcLogo", className = "", attributes = "") {
 }
 
 function renderKimchiLogo() {
-  return renderLogoMark("kimchiLogo", "kimchi-logo brand-logo-mark", 'width="512" height="512"');
+  return renderLogoMark("heroLogo", "kimchi-logo");
 }
 
 function renderBrandLogo() {
-  return renderLogoMark("brandLogo", "brand-kimchi-logo brand-logo-mark", 'width="48" height="48"');
+  return renderLogoMark("brandLogo", "brand-kimchi-logo");
 }
 
 export function renderWebManifest(origin = "https://kimchicanary.xyz") {
@@ -1541,11 +1636,7 @@ function renderSimpleTopbar(active = "home") {
   return renderShellChrome({ active });
 }
 
-function renderFocusedTopbar(active = "home", { language = "en", t = getStrings(language), showLanguage = false } = {}) {
-  return renderShellChrome({ language, t, active, showLanguage, sidebar: false, focused: true });
-}
-
-function renderShellChrome({ language = "en", t = getStrings(language), active = "home", showLanguage = false, admin = false, sidebar = true, focused = false } = {}) {
+function renderShellChrome({ language = "en", t = getStrings(language), active = "home", showLanguage = false, admin = false } = {}) {
   const topItems = [
     ["watchlist", "Dossiers", "/watchlist"],
     ["assessment", "Assessments", "/assessment"],
@@ -1553,7 +1644,7 @@ function renderShellChrome({ language = "en", t = getStrings(language), active =
     ["kit", "Hiring Kit", "/kit"],
     ["methodology", "Methodology", "/methodology"],
   ];
-  return html`<header class="topbar ops-topbar ${focused ? "focused-topbar" : ""}">
+  return html`<header class="topbar ops-topbar">
       <a class="brand ops-wordmark" href="/" aria-label="Kimchi Canary home">
         <span class="topbar-logo">${renderBrandLogo()}</span>
         <span class="brand-word">KIMCHI CANARY</span>
@@ -1581,7 +1672,7 @@ function renderShellChrome({ language = "en", t = getStrings(language), active =
         <a class="top-icon" href="/admin" aria-label="Admin terminal">⌘</a>
       </div>
     </header>
-    ${sidebar ? renderSideNav(active) : ""}`;
+    ${renderSideNav(active)}`;
 }
 
 function renderSideNav(active = "home") {
@@ -1640,6 +1731,17 @@ function clientScript(language) {
       url.searchParams.set("lang", next);
       window.location.href = url.toString();
     });
+
+    const siteLoader = document.querySelector("[data-site-loader]");
+    let siteLoaderHidden = false;
+    function hideSiteLoader() {
+      if (!siteLoader || siteLoaderHidden) return;
+      siteLoaderHidden = true;
+      siteLoader.classList.add("is-loaded");
+      window.setTimeout(() => siteLoader.remove(), 720);
+    }
+    window.addEventListener("load", () => window.setTimeout(hideSiteLoader, 1200), { once: true });
+    window.setTimeout(hideSiteLoader, 3200);
 
     const flagDuel = document.querySelector("[data-flag-duel]");
     const flagField = document.querySelector("[data-flag-field]");
@@ -2342,6 +2444,106 @@ function styles() {
       -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; }
+    .site-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(32, 242, 143, 0.13), transparent 28%),
+        linear-gradient(180deg, #000000 0%, #020806 100%);
+      opacity: 1;
+      transition: opacity 520ms ease, visibility 520ms ease;
+    }
+    .site-loader::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(32, 242, 143, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(32, 242, 143, 0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at 50% 48%, #000 0 42%, transparent 72%);
+      animation: loaderGrid 5.5s linear infinite;
+    }
+    .site-loader.is-loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .loader-core {
+      position: relative;
+      width: min(88vw, 520px);
+      display: grid;
+      justify-items: center;
+      gap: 13px;
+      text-align: center;
+      color: var(--ink);
+      filter: drop-shadow(0 0 34px rgba(32, 242, 143, 0.22));
+    }
+    .loader-logo {
+      width: min(44vw, 168px);
+      min-width: 118px;
+      animation: loaderLogo 1.7s ease-in-out infinite;
+    }
+    .loader-kicker,
+    .loader-status {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      overflow-wrap: normal;
+    }
+    .loader-core strong {
+      position: relative;
+      display: inline-block;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #eafff6;
+      font-size: clamp(42px, 9vw, 78px);
+      line-height: 0.86;
+      letter-spacing: 0;
+      text-shadow: 0 0 22px rgba(32, 242, 143, 0.34), 2px 0 rgba(56, 213, 255, 0.42), -2px 0 rgba(255, 49, 88, 0.32);
+      animation: loaderGlitch 2.4s steps(2, end) infinite;
+    }
+    .loader-line {
+      position: relative;
+      display: block;
+      width: min(100%, 360px);
+      height: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(32, 242, 143, 0.34);
+      background: rgba(32, 242, 143, 0.08);
+    }
+    .loader-line span {
+      display: block;
+      width: 42%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--gold), transparent);
+      box-shadow: 0 0 20px rgba(32, 242, 143, 0.72);
+      animation: loaderLine 1.05s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+    }
+    @keyframes loaderGrid {
+      0% { transform: translate3d(0, 0, 0); opacity: 0.8; }
+      100% { transform: translate3d(34px, 34px, 0); opacity: 0.8; }
+    }
+    @keyframes loaderLogo {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-5px) scale(1.02); }
+    }
+    @keyframes loaderLine {
+      0% { transform: translateX(-120%); }
+      100% { transform: translateX(260%); }
+    }
+    @keyframes loaderGlitch {
+      0%, 86%, 100% { transform: translate(0, 0); filter: none; }
+      88% { transform: translate(-2px, 1px); filter: hue-rotate(18deg); }
+      90% { transform: translate(3px, -1px); filter: hue-rotate(-18deg); }
+      92% { transform: translate(-1px, 0); filter: none; }
+    }
     .topbar {
       position: sticky;
       top: 0;
@@ -3974,6 +4176,7 @@ function styles() {
       text-transform: uppercase;
       text-shadow: 0 0 28px rgba(32, 242, 143, 0.28), 2px 0 rgba(56, 213, 255, 0.28), -2px 0 rgba(255, 49, 88, 0.18);
     }
+    .loader-core strong,
     .page-main h1,
     .assessment-page h1,
     .watchlist-page h1,
@@ -4805,226 +5008,6 @@ function styles() {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .ops-main h1,
-    .ops-main h2,
-    .ops-main h3,
-    .admin-login-screen h1 {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      letter-spacing: -0.045em;
-    }
-    .home-main {
-      background: #000;
-    }
-    .home-main .hero {
-      min-height: 921px;
-      border-bottom-color: rgba(32, 242, 143, 0.2);
-    }
-    .home-main .hero-inner {
-      max-width: 860px;
-    }
-    .home-main .hero h1 {
-      font-size: clamp(74px, 9vw, 138px);
-      line-height: 0.8;
-      margin-bottom: 22px;
-    }
-    .home-main .subtitle {
-      max-width: 720px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(32, 242, 143, 0.24);
-      border-left: 2px solid var(--accent);
-      border-bottom-color: rgba(255, 49, 88, 0.5);
-      background: rgba(10, 10, 10, 0.72);
-      color: rgba(234, 255, 246, 0.92);
-    }
-    .home-main .subtitle span {
-      display: block;
-      margin-top: 8px;
-      color: var(--danger);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-      font-weight: 900;
-    }
-    .home-main .hero-copy {
-      margin-top: 34px;
-      margin-bottom: 0;
-      color: rgba(234, 255, 246, 0.35);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .home-risk-radar {
-      position: relative;
-      z-index: 1;
-      padding: clamp(64px, 8vw, 96px) clamp(28px, 6vw, 104px);
-      border-top: 1px solid rgba(32, 242, 143, 0.2);
-      background: #000;
-    }
-    .radar-heading {
-      margin-bottom: 42px;
-    }
-    .radar-heading h2 {
-      margin: 0 0 8px;
-      color: #fff;
-      font-size: clamp(30px, 4vw, 44px);
-      line-height: 1;
-      text-transform: uppercase;
-    }
-    .radar-heading h2 span {
-      color: var(--accent);
-    }
-    .radar-heading p {
-      max-width: 580px;
-      margin: 0;
-      color: rgba(234, 255, 246, 0.48);
-    }
-    .radar-preview-grid {
-      display: grid;
-      grid-template-columns: minmax(250px, 0.92fr) minmax(0, 2fr);
-      gap: clamp(22px, 4vw, 44px);
-      max-width: 1040px;
-    }
-    .radar-score-card,
-    .radar-question-card {
-      border: 1px solid rgba(32, 242, 143, 0.2);
-      background: rgba(10, 10, 10, 0.7);
-      box-shadow: inset 0 0 30px rgba(32, 242, 143, 0.035);
-      backdrop-filter: blur(12px);
-    }
-    .radar-score-card {
-      padding: 24px;
-    }
-    .radar-score-top {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(234, 255, 246, 0.12);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      text-transform: uppercase;
-    }
-    .radar-score-top span {
-      color: rgba(234, 255, 246, 0.48);
-      font-size: 12px;
-    }
-    .radar-score-top strong {
-      color: var(--danger);
-      font-size: 34px;
-      line-height: 1;
-      text-shadow: 0 0 14px rgba(255, 49, 88, 0.45);
-    }
-    .radar-bars {
-      display: grid;
-      gap: 15px;
-    }
-    .radar-bars span {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 11px;
-    }
-    .radar-bars b {
-      color: rgba(234, 255, 246, 0.58);
-    }
-    .radar-bars em {
-      color: var(--bar-color, var(--accent));
-      font-style: normal;
-      text-transform: uppercase;
-    }
-    .radar-bars i {
-      display: block;
-      height: 4px;
-      background: linear-gradient(90deg, var(--bar-color, var(--accent)) var(--bar), rgba(234, 255, 246, 0.08) 0);
-      box-shadow: 0 0 10px color-mix(in srgb, var(--bar-color, var(--accent)) 55%, transparent);
-    }
-    .radar-question-card {
-      display: grid;
-      gap: 22px;
-      padding: 28px;
-    }
-    .radar-question {
-      padding-left: 20px;
-      border-left: 2px solid rgba(234, 255, 246, 0.25);
-    }
-    .radar-question.is-hot {
-      margin-left: -14px;
-      padding: 16px 16px 16px 28px;
-      border-left-color: var(--danger);
-      background: rgba(255, 49, 88, 0.055);
-    }
-    .radar-question h3 {
-      margin-bottom: 14px;
-      color: #fff;
-      font-size: 18px;
-      line-height: 1.25;
-      letter-spacing: 0;
-    }
-    .radar-question.is-hot h3 {
-      color: var(--danger);
-    }
-    .radar-question label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-right: 18px;
-      color: rgba(234, 255, 246, 0.72);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .focused-topbar {
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      padding-inline: 24px;
-    }
-    .focused-topbar .ops-wordmark {
-      width: auto;
-    }
-    .focused-topbar .topbar-logo {
-      width: 30px;
-      height: 30px;
-    }
-    .focused-topbar .topbar-logo .brand-kimchi-logo {
-      width: 30px;
-      height: 30px;
-    }
-    .focused-main,
-    .ops-main.focused-main,
-    .ops-main.focused-main.assessment-page,
-    .ops-main.focused-main.watchlist-page,
-    .ops-main.focused-main.report-page,
-    .ops-main.focused-main.page-main {
-      margin-left: 0;
-      padding-top: 96px;
-    }
-    .focused-main.assessment-page,
-    .focused-main.report-page,
-    .focused-main.methodology-page,
-    .focused-main.protocol-page,
-    .focused-main.case-detail-page {
-      width: min(100%, 1440px);
-      margin-right: auto;
-      margin-left: auto;
-      padding-inline: clamp(18px, 4vw, 48px);
-    }
-    .focused-main.methodology-page {
-      width: 100%;
-      max-width: none;
-      padding-inline: 0;
-    }
-    .focused-main.methodology-page .methodology-layout,
-    .focused-main.methodology-page .methodology-hero {
-      width: min(100% - 48px, 1120px);
-      margin-inline: auto;
-    }
-    body:has(.focused-main) footer {
-      margin-left: 0;
-    }
-
     .ops-topbar {
       position: fixed;
       top: 0;
@@ -5672,1278 +5655,6 @@ function styles() {
       .score-circle { margin: 0 auto; }
       .footer-inner, .case-meta { flex-direction: column; }
       .photo-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    /* Stitch fidelity pass: static black-green command desk, centered content, no old custom animation layers. */
-    .hero-webgl,
-    .page-webgl,
-    .bonk-webgl,
-    .section-webgl,
-    .flag-field,
-    .flag-scoreboard,
-    .flag-reticle,
-    .flag-humor {
-      display: none !important;
-    }
-    body {
-      background:
-        linear-gradient(rgba(32, 242, 143, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(32, 242, 143, 0.035) 1px, transparent 1px),
-        #000;
-      background-size: 32px 32px;
-      color: #f5fff9;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    .topbar {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: 64px;
-      min-height: 64px;
-      grid-template-columns: 260px minmax(0, 1fr) auto;
-      padding: 0 30px;
-      border-bottom: 1px solid rgba(32, 242, 143, 0.22);
-      background: rgba(0, 0, 0, 0.94);
-      backdrop-filter: blur(16px);
-    }
-    .focused-topbar {
-      grid-template-columns: auto minmax(0, 1fr) auto;
-    }
-    .topbar-logo {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      border: 1px solid rgba(32, 242, 143, 0.48);
-      border-radius: 8px;
-      background: #03130e;
-      box-shadow: 0 0 20px rgba(32, 242, 143, 0.18);
-    }
-    .stitch-logo,
-    .brand-kimchi-logo,
-    .kimchi-logo {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: inherit;
-    }
-    .brand-word {
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 20px;
-      font-weight: 950;
-      letter-spacing: 0.08em;
-    }
-    .focused-topbar .brand-word {
-      color: #21f58f;
-      font-size: 22px;
-      letter-spacing: 0;
-      text-transform: none;
-    }
-    .top-nav {
-      justify-content: center;
-      gap: 26px;
-      overflow: visible;
-    }
-    .top-nav a,
-    nav a {
-      min-height: 64px;
-      padding: 0 0 3px;
-      border: 0;
-      border-bottom: 3px solid transparent;
-      background: transparent;
-      box-shadow: none;
-      color: #7e8799;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .top-nav a:hover,
-    .top-nav a[aria-current="page"] {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      background: transparent;
-      box-shadow: none;
-    }
-    .top-actions {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 18px;
-    }
-    .top-icon {
-      border: 0;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 18px;
-      line-height: 1;
-    }
-    .ops-sidebar {
-      position: fixed;
-      inset: 64px auto 0 0;
-      z-index: 15;
-      width: 256px;
-      padding: 22px 22px 28px;
-      border-right: 1px solid rgba(32, 242, 143, 0.22);
-      background: rgba(0, 0, 0, 0.94);
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-    .sidebar-brand {
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 12px;
-      align-items: center;
-      color: #fff;
-    }
-    .sidebar-logo {
-      width: 48px;
-      height: 48px;
-      border: 1px solid rgba(32, 242, 143, 0.52);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 24px rgba(32, 242, 143, 0.22);
-    }
-    .sidebar-brand strong {
-      display: block;
-      font-size: 16px;
-      line-height: 1.1;
-    }
-    .sidebar-brand span {
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .sidebar-scan {
-      display: grid;
-      place-items: center;
-      min-height: 42px;
-      border: 1px solid var(--accent);
-      background: rgba(32, 242, 143, 0.12);
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-weight: 900;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-    .sidebar-menu {
-      display: grid;
-      gap: 8px;
-      margin-inline: -22px;
-    }
-    .sidebar-label {
-      margin: 10px 22px 0;
-      color: #687386;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .sidebar-menu a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-height: 44px;
-      padding: 0 22px;
-      color: #8c93a3;
-      text-decoration: none;
-      font-weight: 760;
-    }
-    .sidebar-menu a.is-active {
-      border-left: 4px solid var(--accent);
-      background: rgba(32, 242, 143, 0.13);
-      color: var(--accent);
-    }
-    .sidebar-bottom {
-      margin-top: auto;
-      display: grid;
-      gap: 14px;
-    }
-    .sidebar-bottom a {
-      color: #70798b;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-    .ops-main {
-      margin-left: 256px;
-      padding-top: 64px;
-    }
-    .focused-main,
-    .ops-main.focused-main {
-      width: min(100%, 1280px);
-      margin: 0 auto;
-      padding: 112px 40px 80px;
-    }
-    .home-main {
-      padding-top: 64px;
-    }
-    .hero {
-      min-height: calc(100svh - 64px);
-      place-items: center start;
-      padding: 84px clamp(36px, 7vw, 108px);
-      text-align: left;
-      background: #000;
-    }
-    .stitch-hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.76;
-      filter: saturate(1.06) contrast(1.08) brightness(0.72);
-    }
-    .stitch-flag-duel {
-      background:
-        radial-gradient(circle at 40% 46%, rgba(32, 242, 143, 0.2), transparent 26%),
-        linear-gradient(120deg, rgba(238, 246, 255, 0.22), transparent 42%),
-        #020706;
-    }
-    .stitch-flag-duel::before,
-    .stitch-flag-duel::after {
-      content: "";
-      position: absolute;
-      inset: -12%;
-      pointer-events: none;
-      filter: saturate(1.08) contrast(1.08);
-    }
-    .stitch-flag-duel::before {
-      z-index: 0;
-      clip-path: polygon(0 0, 70% 0, 46% 100%, 0 100%);
-      background:
-        radial-gradient(circle at 47% 49%, #cd2e3a 0 5.5%, #0047a0 5.6% 11%, transparent 11.2%),
-        linear-gradient(24deg, transparent 0 24%, rgba(10, 16, 18, 0.78) 24.5% 25.8%, transparent 26.3% 32%, rgba(10, 16, 18, 0.76) 32.6% 34%, transparent 34.4%),
-        linear-gradient(-24deg, transparent 0 68%, rgba(10, 16, 18, 0.72) 68.6% 70%, transparent 70.4%),
-        linear-gradient(120deg, rgba(255,255,255,0.96), rgba(210,235,232,0.78) 44%, rgba(0,0,0,0.08));
-      opacity: 0.72;
-      transform: rotate(-7deg) scale(1.12);
-    }
-    .stitch-flag-duel::after {
-      z-index: 0;
-      clip-path: polygon(57% 0, 100% 0, 100% 100%, 36% 100%);
-      background:
-        radial-gradient(circle at 68% 47%, rgba(255,255,255,0.95) 0 5.4%, transparent 5.6%),
-        conic-gradient(from 18deg at 68% 47%, #ed1c27 0 10%, transparent 10% 20%, #ed1c27 20% 30%, transparent 30% 40%, #ed1c27 40% 50%, transparent 50% 60%, #ed1c27 60% 70%, transparent 70% 80%, #ed1c27 80% 90%, transparent 90% 100%),
-        linear-gradient(180deg, #024fa2 0 21%, #fff 21% 25%, #ed1c27 25% 75%, #fff 75% 79%, #024fa2 79% 100%);
-      opacity: 0.66;
-      transform: rotate(-7deg) scale(1.12);
-    }
-    .hero::before {
-      background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.24) 54%, rgba(0, 0, 0, 0.76) 100%),
-        repeating-linear-gradient(0deg, rgba(32, 242, 143, 0.08) 0 1px, transparent 1px 5px);
-      opacity: 1;
-    }
-    .hero::after {
-      background: radial-gradient(circle at 28% 42%, rgba(32, 242, 143, 0.22), transparent 28%);
-      opacity: 0.7;
-      mix-blend-mode: screen;
-    }
-    .hero-inner {
-      width: min(100%, 760px);
-      justify-items: start;
-      text-align: left;
-    }
-    .hero .eyebrow {
-      color: var(--gold);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    }
-    .hero h1 {
-      margin: 0 0 24px;
-      font-family: Impact, Haettenschweiler, "Arial Black", system-ui, sans-serif;
-      font-size: clamp(76px, 12.5vw, 170px);
-      line-height: 0.82;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-    .hero h1 span {
-      display: block;
-    }
-    .hero-green {
-      color: var(--accent);
-      text-shadow: 0 0 34px rgba(32, 242, 143, 0.42);
-    }
-    .hero .subtitle {
-      width: min(100%, 670px);
-      margin: 0;
-      padding: 18px 22px;
-      border: 1px solid var(--accent);
-      background: rgba(0, 0, 0, 0.72);
-      color: #f4fff9;
-      font-size: clamp(20px, 2.3vw, 28px);
-      line-height: 1.25;
-      text-wrap: pretty;
-    }
-    .hero .subtitle span {
-      display: block;
-      margin-top: 8px;
-      color: var(--danger);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-    }
-    .hero-actions {
-      justify-content: flex-start;
-      gap: 14px;
-      margin-top: 34px;
-    }
-    .button {
-      min-height: 46px;
-      border: 1px solid rgba(32, 242, 143, 0.72);
-      border-radius: 0;
-      box-shadow: none;
-      background: rgba(0, 0, 0, 0.72);
-      color: #f5fff9;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .button.primary {
-      background: var(--accent);
-      color: #00150d;
-      border-color: var(--accent);
-    }
-    .button.secondary {
-      background: rgba(0, 0, 0, 0.68);
-      color: #f5fff9;
-    }
-    .button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 28px rgba(32, 242, 143, 0.2);
-    }
-    .hero-copy {
-      margin-top: 32px;
-      color: #8c93a3;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 13px;
-    }
-    .home-risk-radar {
-      width: min(100%, 860px);
-      margin: 96px auto 130px;
-      padding: 0;
-    }
-    .radar-heading h2 {
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: clamp(30px, 4vw, 44px);
-      line-height: 1;
-      text-transform: uppercase;
-    }
-    .radar-heading h2 span {
-      color: var(--accent);
-    }
-    .radar-preview-grid {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      gap: 28px;
-      align-items: stretch;
-      margin-top: 46px;
-    }
-    .radar-score-card,
-    .radar-question-card,
-    .assessment-console-section,
-    .stitch-result-panel,
-    .policy-strip,
-    .case-card,
-    .report-form,
-    .report-assurance,
-    .plain-grid article,
-    .protocol-checks article,
-    .protocol-side article,
-    .glass-card,
-    .section-visual {
-      border: 1px solid rgba(32, 242, 143, 0.28);
-      background: rgba(8, 11, 10, 0.92);
-      box-shadow: none;
-      border-radius: 0;
-    }
-    .radar-score-card {
-      padding: 28px;
-    }
-    .radar-score-top strong {
-      color: var(--danger);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 42px;
-    }
-    .radar-question-card {
-      padding: 26px 30px;
-    }
-    .assessment-command-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 32px;
-      align-items: end;
-      margin: 0 0 30px;
-    }
-    .assessment-command-head h1,
-    .dossier-head h1,
-    .report-brief h1,
-    .case-detail-head h1,
-    .protocol-head h1,
-    .methodology-hero h1 {
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: clamp(46px, 6vw, 82px);
-      line-height: 0.92;
-      letter-spacing: -0.02em;
-      text-transform: none;
-    }
-    .assessment-directive {
-      border-left: 2px solid var(--danger);
-      padding: 16px 18px;
-      background: rgba(255, 49, 88, 0.08);
-      color: #c9d3df;
-    }
-    .assessment-directive strong {
-      display: block;
-      color: var(--accent);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-    .assessment-ops-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 30px;
-      align-items: start;
-      grid-template-areas: "prompts result";
-    }
-    .assessment-console {
-      grid-area: prompts;
-      min-width: 0;
-    }
-    .stitch-result-panel {
-      grid-area: result;
-      position: sticky;
-      top: 88px;
-      max-height: calc(100vh - 120px);
-      overflow: auto;
-      padding: 24px;
-      border-color: rgba(255, 49, 88, 0.55);
-    }
-    .stitch-visual {
-      position: relative;
-      min-height: 220px;
-      margin-bottom: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(32, 242, 143, 0.28);
-      background: #030807;
-    }
-    .stitch-visual-assessmentRadar,
-    .stitch-visual-defenseCore {
-      background:
-        radial-gradient(circle at 50% 58%, rgba(32, 242, 143, 0.2) 0 2px, transparent 3px 100%),
-        radial-gradient(circle at 50% 58%, transparent 0 12%, rgba(32, 242, 143, 0.14) 12.4% 12.9%, transparent 13.2% 23%, rgba(32, 242, 143, 0.1) 23.4% 23.9%, transparent 24.2%),
-        linear-gradient(135deg, transparent 0 45%, rgba(32, 242, 143, 0.18) 45.2% 46%, transparent 46.3%),
-        #030807;
-    }
-    .stitch-visual-assessmentRadar::before,
-    .stitch-visual-defenseCore::before {
-      content: "";
-      position: absolute;
-      inset: 22%;
-      border: 1px solid rgba(32, 242, 143, 0.24);
-      transform: rotate(45deg);
-      box-shadow: 0 0 42px rgba(32, 242, 143, 0.14), inset 0 0 36px rgba(32, 242, 143, 0.08);
-      pointer-events: none;
-    }
-    .stitch-visual-image {
-      width: 100%;
-      height: 100%;
-      min-height: 220px;
-      display: block;
-      object-fit: cover;
-      opacity: 0.9;
-      filter: saturate(1.05) contrast(1.08) brightness(0.72);
-    }
-    .stitch-visual span {
-      position: absolute;
-      left: 22px;
-      bottom: 18px;
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .assessment-signal-console {
-      display: grid;
-      gap: 18px;
-    }
-    .assessment-console-section {
-      padding: 0;
-      overflow: hidden;
-    }
-    .assessment-console-section legend {
-      width: 100%;
-      padding: 14px 20px;
-      border-bottom: 1px solid rgba(32, 242, 143, 0.18);
-      background: rgba(32, 242, 143, 0.08);
-    }
-    .assessment-console-section legend span {
-      color: #fff;
-      font-size: 17px;
-      font-weight: 900;
-    }
-    .assessment-console-section legend small {
-      display: block;
-      margin-top: 3px;
-      color: #7f8b9d;
-      font-size: 12px;
-      line-height: 1.35;
-    }
-    .assessment-signal-row {
-      display: grid;
-      grid-template-columns: 24px minmax(0, 1fr) minmax(150px, 230px);
-      gap: 14px;
-      align-items: start;
-      padding: 18px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      cursor: pointer;
-    }
-    .assessment-signal-row:last-child {
-      border-bottom: 0;
-    }
-    .assessment-signal-row input[type="checkbox"],
-    .mini-check input,
-    .consent input,
-    .protocol-checks input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-    }
-    .signal-copy strong {
-      color: #f5fff9;
-      font-size: 16px;
-      line-height: 1.28;
-    }
-    .signal-copy small {
-      display: block;
-      margin-top: 8px;
-      color: #98a3b3;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    }
-    .signal-note {
-      min-height: 38px;
-      padding: 8px 10px;
-      border-color: rgba(255, 255, 255, 0.14);
-      background: #050807;
-      color: #d8e6df;
-      font-size: 13px;
-    }
-    .assessment-signal-row .signal-note {
-      width: 100% !important;
-      min-width: 0;
-      display: block;
-    }
-    .score-row strong {
-      color: var(--danger);
-      text-transform: uppercase;
-    }
-    .score-circle {
-      border-color: rgba(255, 49, 88, 0.72);
-      background: radial-gradient(circle, rgba(255, 49, 88, 0.16), rgba(0,0,0,0.86));
-    }
-    .score-circle span {
-      color: #fff;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    }
-    .prompt-bank {
-      margin-top: 28px;
-      border: 1px solid rgba(32, 242, 143, 0.22);
-      background: rgba(0, 0, 0, 0.62);
-      padding: 24px;
-    }
-    .prompt-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-    .prompt-grid article {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.025);
-    }
-    .watchlist-page {
-      padding: 112px 40px 80px;
-    }
-    .dossier-head,
-    .report-workbench,
-    .methodology-layout,
-    .protocol-grid,
-    .case-bento {
-      width: min(100%, 1220px);
-      margin-inline: auto;
-    }
-    .dossier-head {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 30px;
-      align-items: end;
-      margin-bottom: 28px;
-    }
-    .dossier-head .stitch-visual {
-      min-height: 190px;
-      margin: 0;
-    }
-    .policy-strip,
-    .watchlist-tools,
-    .dossier-layout {
-      width: min(100%, 1220px);
-      margin-inline: auto;
-    }
-    .watchlist-tools {
-      display: grid;
-      grid-template-columns: minmax(260px, 1fr) auto;
-      gap: 18px;
-      align-items: end;
-      margin-block: 28px;
-    }
-    .dossier-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 30px;
-      align-items: start;
-    }
-    .case-list {
-      display: grid;
-      gap: 16px;
-    }
-    .watch-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: 112px minmax(0, 1fr);
-      gap: 0 20px;
-      padding: 20px;
-      border-left: 4px solid var(--danger);
-      overflow: hidden;
-    }
-    .watch-card .photo-strip {
-      grid-row: 1 / span 7;
-      grid-column: 1;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 6px;
-      max-height: 112px;
-      overflow: hidden;
-    }
-    .watch-card .empty-photos {
-      min-height: 112px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-      overflow: hidden;
-    }
-    .watch-card .empty-photos span {
-      display: block;
-      max-width: 100%;
-      color: #8fe9c2;
-      font-size: 12px;
-      line-height: 1.12;
-      text-wrap: balance;
-    }
-    .watch-card > :not(.photo-strip) {
-      grid-column: 2;
-    }
-    .photo-tile {
-      margin: 0;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: #070707;
-    }
-    .photo-tile img {
-      width: 100%;
-      height: 92px;
-      object-fit: cover;
-      filter: grayscale(1) contrast(1.08);
-    }
-    .photo-tile figcaption {
-      padding: 4px;
-      color: #9aa4b3;
-      font-size: 10px;
-      line-height: 1.1;
-    }
-    .case-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      color: #778195;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .case-card h3 {
-      margin: 6px 0 8px;
-      color: #fff;
-      font-size: 24px;
-    }
-    .case-card p {
-      color: #9aa4b3;
-      line-height: 1.45;
-    }
-    .case-links a {
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-decoration: none;
-    }
-    .dossier-side {
-      position: sticky;
-      top: 88px;
-      border: 1px solid rgba(32, 242, 143, 0.22);
-      background: rgba(8, 11, 10, 0.92);
-      padding: 24px;
-    }
-    .report-workbench {
-      display: grid;
-      grid-template-columns: 0.82fr 1.18fr;
-      gap: clamp(32px, 6vw, 76px);
-      align-items: start;
-    }
-    .report-brief h1 {
-      font-size: clamp(54px, 6vw, 82px);
-    }
-    .report-assurance {
-      margin: 34px 0 28px;
-      padding: 30px;
-      border-top: 4px solid rgba(32, 242, 143, 0.35);
-    }
-    .report-brief .stitch-visual {
-      min-height: 260px;
-    }
-    .report-form {
-      padding: clamp(24px, 4vw, 42px);
-    }
-    .form-block {
-      margin: 0 0 28px;
-      padding: 0 0 26px;
-      border: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-    }
-    .form-block h2,
-    .report-form legend span {
-      color: #fff;
-      font-size: 22px;
-      line-height: 1.1;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-    .report-form label,
-    .report-form legend,
-    .watchlist-tools label {
-      color: #9ba4b4;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    input,
-    textarea,
-    select {
-      border-radius: 0;
-      border-color: rgba(255, 255, 255, 0.14);
-      background: #020403;
-      color: #f5fff9;
-    }
-    .checkbox-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .mini-check {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      letter-spacing: 0;
-      text-transform: none;
-      color: #c2ccd8;
-    }
-    .consent {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      letter-spacing: 0;
-      text-transform: none;
-      color: #b8c2cf;
-    }
-    .report-form .button {
-      margin-left: auto;
-      min-width: 260px;
-      min-height: 58px;
-      font-size: 16px;
-    }
-    .methodology-page {
-      max-width: none;
-    }
-    .methodology-hero {
-      min-height: 320px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      border-bottom: 1px solid rgba(32, 242, 143, 0.28);
-      margin-bottom: 76px;
-    }
-    .methodology-hero h1 {
-      font-size: clamp(48px, 7vw, 86px);
-    }
-    .methodology-hero h1 span {
-      color: #8e97a8;
-    }
-    .methodology-layout {
-      display: grid;
-      grid-template-columns: 250px minmax(0, 1fr);
-      gap: 44px;
-      max-width: 1060px;
-    }
-    .method-nav {
-      position: sticky;
-      top: 98px;
-      align-self: start;
-      display: grid;
-      gap: 18px;
-      padding-left: 24px;
-      border-left: 1px solid rgba(32, 242, 143, 0.34);
-    }
-    .method-nav a {
-      color: #7e8799;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-    .method-nav a:first-child {
-      color: var(--accent);
-    }
-    .method-content {
-      max-width: 820px;
-    }
-    .method-intro {
-      margin-bottom: 46px;
-      color: #bcc7d3;
-      font-size: 22px;
-      line-height: 1.45;
-    }
-    .plain-grid.two {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .plain-grid article {
-      padding: 22px;
-    }
-    .danger-panel {
-      border-color: rgba(255, 49, 88, 0.45) !important;
-      background: rgba(255, 49, 88, 0.07) !important;
-    }
-    .section-visual {
-      display: grid;
-      place-items: center;
-      min-height: 170px;
-      margin: 42px 0;
-    }
-    .visual-stage {
-      display: grid;
-      place-items: center;
-      min-height: 130px;
-    }
-    .micro-label {
-      position: static !important;
-      border: 1px solid rgba(32, 242, 143, 0.4);
-      color: var(--accent);
-      padding: 10px 18px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .protocol-page {
-      padding: 112px 40px 80px;
-    }
-    .protocol-head {
-      width: min(100%, 1220px);
-      margin: 0 auto 56px;
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 30px;
-    }
-    .protocol-head h1 {
-      text-transform: uppercase;
-    }
-    .protocol-head h2 {
-      color: #8e97a8;
-      font-size: clamp(30px, 4vw, 46px);
-      text-transform: uppercase;
-    }
-    .protocol-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 30px;
-      align-items: start;
-    }
-    .protocol-checks,
-    .protocol-side {
-      display: grid;
-      gap: 22px;
-    }
-    .protocol-checks article,
-    .protocol-side article {
-      padding: 28px 30px;
-    }
-    .protocol-checks h2,
-    .protocol-side h2 {
-      color: var(--accent);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 16px;
-      text-transform: uppercase;
-    }
-    .protocol-checks li {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      color: #f1f7f4;
-      font-size: 18px;
-    }
-    .case-detail-page {
-      max-width: none;
-    }
-    .case-breadcrumb,
-    .case-detail-head,
-    .case-bento {
-      width: min(100%, 1340px);
-      margin-inline: auto;
-    }
-    .case-detail-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 28px;
-      margin-bottom: 34px;
-    }
-    .case-bento {
-      display: grid;
-      grid-template-columns: 420px minmax(0, 1fr);
-      gap: 28px;
-      grid-template-areas:
-        "identity kpis"
-        "identity timeline"
-        "note timeline";
-    }
-    .case-identity { grid-area: identity; overflow: hidden; }
-    .case-note { grid-area: note; }
-    .case-kpis { grid-area: kpis; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-    .case-timeline { grid-area: timeline; }
-    .glass-card {
-      padding: 26px;
-    }
-    .case-identity {
-      padding: 0;
-    }
-    .case-identity .photo-strip {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      max-height: 330px;
-      overflow: hidden;
-    }
-    .case-identity .photo-tile img {
-      height: 150px;
-    }
-    .case-identity-body {
-      padding: 28px;
-    }
-    .admin-login-screen {
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      padding: 40px;
-      background:
-        linear-gradient(rgba(32, 242, 143, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(32, 242, 143, 0.04) 1px, transparent 1px),
-        #000;
-      background-size: 28px 28px;
-    }
-    .admin-login-head {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-    .login-logo {
-      width: 96px;
-      height: 96px;
-      margin: 0 auto 22px;
-      border: 1px solid rgba(32, 242, 143, 0.5);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 28px rgba(32, 242, 143, 0.24);
-    }
-    .admin-login-head h1 {
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: 42px;
-      line-height: 1;
-      text-transform: uppercase;
-    }
-    .admin-login {
-      width: min(100%, 520px);
-      padding: 40px;
-      border: 1px solid var(--accent);
-      background: rgba(8, 11, 10, 0.96);
-    }
-    .admin-shell {
-      min-height: 100svh;
-      display: grid;
-      grid-template-columns: 320px minmax(0, 1fr) 380px;
-      gap: 0;
-      padding: 64px 0 0;
-      background: #000;
-    }
-    .admin-queue-topbar {
-      position: fixed;
-      inset: 0 0 auto 0;
-      z-index: 30;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30px;
-      border-bottom: 1px solid rgba(32, 242, 143, 0.22);
-      background: #000;
-    }
-    .admin-queue-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .admin-sidebar,
-    .admin-review-panel {
-      border-right: 1px solid rgba(32, 242, 143, 0.18);
-      background: rgba(10, 12, 11, 0.92);
-      padding: 30px;
-    }
-    .admin-review-panel {
-      border-right: 0;
-      border-left: 1px solid rgba(32, 242, 143, 0.18);
-    }
-    .admin-queue {
-      padding: 40px;
-    }
-    .admin-hero {
-      min-height: 190px;
-      margin: -40px -40px 36px;
-      padding: 52px 40px;
-      border-bottom: 1px solid rgba(32, 242, 143, 0.18);
-      background:
-        linear-gradient(90deg, rgba(0,0,0,0.2), rgba(0,0,0,0.78)),
-        radial-gradient(circle at 28% 20%, rgba(32, 242, 143, 0.24), transparent 42%),
-        #07110f;
-    }
-    .admin-hero h1 {
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: 42px;
-      line-height: 1;
-    }
-    footer {
-      margin-left: 256px;
-      border-top: 1px solid rgba(32, 242, 143, 0.14);
-      background: #000;
-    }
-    body:has(.focused-main) footer,
-    body:has(.admin-login-screen) footer,
-    body:has(.admin-shell) footer {
-      margin-left: 0;
-    }
-    .footer-inner {
-      min-height: 64px;
-      padding: 0 40px;
-      color: #758094;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      font-size: 11px;
-      text-transform: uppercase;
-    }
-    @media (max-width: 1020px) {
-      .topbar,
-      .focused-topbar {
-        grid-template-columns: minmax(0, 1fr) auto;
-        height: auto;
-        min-height: 64px;
-        padding: 12px 18px;
-      }
-      .top-nav {
-        grid-column: 1 / -1;
-        justify-content: flex-start;
-        overflow-x: auto;
-        gap: 18px;
-      }
-      .top-nav a,
-      nav a {
-        min-height: 36px;
-        font-size: 12px;
-      }
-      .ops-sidebar {
-        display: none;
-      }
-      .ops-main,
-      .home-main,
-      footer {
-        margin-left: 0;
-      }
-      .ops-main,
-      .focused-main,
-      .ops-main.focused-main,
-      .watchlist-page,
-      .protocol-page {
-        padding: 130px 20px 64px;
-      }
-      .hero {
-        min-height: 760px;
-        padding: 92px 26px 64px;
-      }
-      .hero h1 {
-        font-size: clamp(62px, 16vw, 112px);
-      }
-      .radar-preview-grid,
-      .assessment-command-head,
-      .assessment-ops-grid,
-      .dossier-head,
-      .dossier-layout,
-      .report-workbench,
-      .methodology-layout,
-      .protocol-grid,
-      .case-bento,
-      .admin-shell {
-        grid-template-columns: 1fr;
-        grid-template-areas: none;
-      }
-      .assessment-console,
-      .stitch-result-panel,
-      .case-identity,
-      .case-note,
-      .case-kpis,
-      .case-timeline {
-        grid-area: auto;
-      }
-      .stitch-result-panel,
-      .dossier-side,
-      .method-nav {
-        position: static;
-        max-height: none;
-      }
-      .prompt-grid,
-      .plain-grid.two,
-      .checkbox-grid,
-      .case-kpis {
-        grid-template-columns: 1fr;
-      }
-      .assessment-signal-row {
-        grid-template-columns: 24px minmax(0, 1fr);
-      }
-      .signal-note {
-        grid-column: 2;
-      }
-      .form-row,
-      .watchlist-tools {
-        grid-template-columns: 1fr;
-      }
-      .watch-card {
-        grid-template-columns: 1fr;
-      }
-      .watch-card .photo-strip,
-      .watch-card > :not(.photo-strip) {
-        grid-column: auto;
-        grid-row: auto;
-      }
-      .watch-card .photo-strip {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        max-height: none;
-      }
-      .report-form .button {
-        width: 100%;
-        min-width: 0;
-      }
-      .admin-sidebar,
-      .admin-review-panel,
-      .admin-queue {
-        padding: 24px;
-      }
-      .admin-hero {
-        margin: 0 0 24px;
-      }
-    }
-    @media (max-width: 640px) {
-      .brand-word {
-        font-size: 15px;
-      }
-      .top-actions {
-        gap: 8px;
-      }
-      .top-nav {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        overflow: visible;
-      }
-      .top-nav a,
-      nav a {
-        min-height: 32px;
-        padding: 7px 5px;
-        border: 1px solid rgba(32, 242, 143, 0.22);
-        font-size: 9px;
-        line-height: 1.1;
-        white-space: normal;
-        text-align: center;
-      }
-      .top-nav a[aria-current="page"],
-      nav a[aria-current="page"] {
-        border-color: var(--accent);
-      }
-      .top-icon {
-        display: none;
-      }
-      .hero {
-        min-height: 700px;
-      }
-      .hero .subtitle {
-        font-size: 18px;
-        padding: 14px;
-      }
-      .hero-actions {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-      }
-      .home-risk-radar {
-        margin: 62px auto 80px;
-      }
-      .assessment-command-head h1,
-      .dossier-head h1,
-      .report-brief h1,
-      .case-detail-head h1,
-      .protocol-head h1,
-      .methodology-hero h1 {
-        font-size: 42px;
-      }
-      .protocol-head,
-      .case-detail-head {
-        flex-direction: column;
-      }
-      .assessment-ops-grid {
-        display: flex;
-        flex-direction: column;
-      }
-      .stitch-result-panel {
-        order: -1;
-      }
-      .footer-inner {
-        padding: 18px;
-      }
     }
     @media print {
       body { background: #fff; color: #000; }
